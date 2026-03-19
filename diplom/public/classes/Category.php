@@ -1,0 +1,66 @@
+<?php
+require_once 'BaseModel.php';
+
+class Category extends BaseModel {
+    protected $table = 'categories';
+    protected $primaryKey = 'id';
+    protected $fillable = ['name'];
+    
+    private $subcategories = null;
+    
+    public function getSubcategories() {
+        if ($this->subcategories === null) {
+            $sql = "SELECT * FROM subcategories WHERE category_id = {$this->data['id']} ORDER BY name";
+            $result = $this->db->query($sql);
+            $rows = $this->db->fetchAll($result);
+            
+            $this->subcategories = [];
+            foreach ($rows as $row) {
+                $sub = new Subcategory();
+                $sub->data = $row;
+                $this->subcategories[] = $sub;
+            }
+        }
+        return $this->subcategories;
+    }
+    
+    public function hasSubcategories() {
+        return count($this->getSubcategories()) > 0;
+    }
+    
+    public function canDelete() {
+        return !$this->hasSubcategories();
+    }
+    
+    public static function getAllWithSubcategories() {
+        $db = Database::getInstance();
+        $sql = "SELECT c.id as cat_id, c.name as cat_name, 
+                       s.id as sub_id, s.name as sub_name
+                FROM categories c
+                LEFT JOIN subcategories s ON c.id = s.category_id
+                ORDER BY c.name, s.name";
+        $result = $db->query($sql);
+        $rows = $db->fetchAll($result);
+        
+        $categories = [];
+        foreach ($rows as $row) {
+            $catId = $row['cat_id'];
+            if (!isset($categories[$catId])) {
+                $categories[$catId] = [
+                    'id' => $catId,
+                    'name' => $row['cat_name'],
+                    'subcategories' => []
+                ];
+            }
+            if ($row['sub_id']) {
+                $categories[$catId]['subcategories'][] = [
+                    'id' => $row['sub_id'],
+                    'name' => $row['sub_name']
+                ];
+            }
+        }
+        
+        return $categories;
+    }
+}
+?>
