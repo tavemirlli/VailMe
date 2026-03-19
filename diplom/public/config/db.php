@@ -8,5 +8,4 @@ try {
     die('Ошибка подключения к БД: ' . $e->getMessage());
 }
 
-session_start();
 ?>
