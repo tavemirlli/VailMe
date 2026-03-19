@@ -4,7 +4,7 @@ require_once 'BaseModel.php';
 class Category extends BaseModel {
     protected $table = 'categories';
     protected $primaryKey = 'id';
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'image_url']; // Добавлено image_url
     
     private $subcategories = null;
     
@@ -32,9 +32,17 @@ class Category extends BaseModel {
         return !$this->hasSubcategories();
     }
     
+    public function getImageUrl() {
+        return $this->data['image_url'] ?? null;
+    }
+    
+    public function hasImage() {
+        return !empty($this->data['image_url']);
+    }
+    
     public static function getAllWithSubcategories() {
         $db = Database::getInstance();
-        $sql = "SELECT c.id as cat_id, c.name as cat_name, 
+        $sql = "SELECT c.id as cat_id, c.name as cat_name, c.image_url as cat_image,
                        s.id as sub_id, s.name as sub_name
                 FROM categories c
                 LEFT JOIN subcategories s ON c.id = s.category_id
@@ -49,6 +57,7 @@ class Category extends BaseModel {
                 $categories[$catId] = [
                     'id' => $catId,
                     'name' => $row['cat_name'],
+                    'image_url' => $row['cat_image'],
                     'subcategories' => []
                 ];
             }

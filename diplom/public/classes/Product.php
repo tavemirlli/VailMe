@@ -1,5 +1,7 @@
 <?php
 require_once 'BaseModel.php';
+require_once 'ProductVariant.php'; // <-- Добавьте эту строку
+require_once 'ProductImage.php';  
 
 class Product extends BaseModel {
     protected $table = 'products';

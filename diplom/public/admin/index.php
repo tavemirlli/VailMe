@@ -3,127 +3,103 @@ require_once '../config/db.php';
 require_once '../classes/Product.php';
 require_once '../classes/Category.php';
 require_once '../classes/Subcategory.php';
+require_once '../classes/ProductImage.php';
 
-$pageTitle = 'Добавить товар';
-$categoriesWithSub = Category::getAllWithSubcategories();
-$allCategories = Category::findAll('name');
+$pageTitle = 'Управление товарами';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $product = new Product();
-    $product->subcategory_id = (int)$_POST['subcategory_id'];
-    $product->name = $_POST['name'];
-    $product->description = $_POST['description'] ?? '';
-    $product->price = (float)$_POST['price'];
-    $product->old_price = !empty($_POST['old_price']) ? (float)$_POST['old_price'] : null;
-    $product->is_new = isset($_POST['is_new']) ? 1 : 0;
-    
-    $variants = [];
-    if (!empty($_POST['variants'])) {
-        foreach ($_POST['variants'] as $variant) {
-            if (!empty($variant['color']) || !empty($variant['size'])) {
-                $variants[] = $variant;
-            }
-        }
-    }
-    
-    if ($product->saveWithVariants($variants)) {
-        header('Location: index.php?success=1');
-        exit;
-    } else {
-        $error = "Ошибка при сохранении товара";
-    }
-}
+// Получаем все товары
+$products = Product::findAll('id DESC');
+
+// Получаем статистику
+$db = Database::getInstance();
+$statsSql = "SELECT 
+                COUNT(*) as total_products,
+                SUM(CASE WHEN is_new = 1 THEN 1 ELSE 0 END) as new_products
+             FROM products";
+$statsResult = $db->query($statsSql);
+$stats = $db->fetchOne($statsResult);
 
 include '../templates/admin-header.php';
 ?>
 
-<h1>Добавить товар</h1>
+<h1>Управление товарами</h1>
 
-<?php if (isset($error)): ?>
-    <div class="error"><?php echo $error; ?></div>
+<?php if (isset($_GET['success'])): ?>
+    <div class="success">Операция выполнена успешно!</div>
 <?php endif; ?>
 
-<form method="POST">
-    <label>Категория:</label>
-    <select id="category_select" required>
-        <option value="">-- Выберите категорию --</option>
-        <?php foreach ($allCategories as $category): ?>
-            <option value="<?php echo $category->id; ?>"><?php echo htmlspecialchars($category->name); ?></option>
-        <?php endforeach; ?>
-    </select>
-    
-    <label>Подкатегория:</label>
-    <select name="subcategory_id" id="subcategory_select" required>
-        <option value="">-- Сначала выберите категорию --</option>
-    </select>
-    
-    <label>Название товара:</label>
-    <input type="text" name="name" required>
-    
-    <label>Описание:</label>
-    <textarea name="description" rows="5"></textarea>
-    
-    <label>Цена (руб):</label>
-    <input type="number" step="0.01" name="price" required>
-    
-    <label>Старая цена (руб):</label>
-    <input type="number" step="0.01" name="old_price">
-    
-    <label>
-        <input type="checkbox" name="is_new" checked> Новинка
-    </label>
-    
-    <h3>Варианты товара (цвет/размер)</h3>
-    <div id="variants">
-        <div class="variant-row">
-            <input type="text" name="variants[0][color]" placeholder="Цвет (например, Синий)">
-            <input type="text" name="variants[0][size]" placeholder="Размер (например, M)">
-            <input type="number" name="variants[0][price]" step="0.01" placeholder="Цена (если отличается)">
-            <input type="number" name="variants[0][quantity]" placeholder="Количество на складе" value="0">
-            <button type="button" class="remove-variant" onclick="this.parentElement.remove()">Удалить</button>
-        </div>
+<div class="stats">
+    <div class="stat-box">
+        <strong>Всего товаров:</strong> <?php echo $stats['total_products']; ?>
     </div>
-    <button type="button" onclick="addVariant()">+ Добавить вариант</button>
-    
-    <button type="submit">Сохранить товар</button>
-</form>
+    <div class="stat-box">
+        <strong>Новинок:</strong> <?php echo $stats['new_products']; ?>
+    </div>
+    <div class="stat-box">
+        <a href="create.php" class="btn" style="background: #4CAF50;">+ Добавить новый товар</a>
+    </div>
+</div>
 
-<a href="index.php" class="back-link">← Вернуться к списку</a>
-
-<script>
-    const categoriesWithSub = <?php echo json_encode($categoriesWithSub); ?>;
-    
-    document.getElementById('category_select').addEventListener('change', function() {
-        const categoryId = this.value;
-        const subcategorySelect = document.getElementById('subcategory_select');
-        
-        subcategorySelect.innerHTML = '<option value="">-- Выберите подкатегорию --</option>';
-        
-        if (categoryId && categoriesWithSub[categoryId]) {
-            categoriesWithSub[categoryId].subcategories.forEach(function(sub) {
-                const option = document.createElement('option');
-                option.value = sub.id;
-                option.textContent = sub.name;
-                subcategorySelect.appendChild(option);
-            });
-        }
-    });
-    
-    let variantCount = 1;
-    function addVariant() {
-        const variantsDiv = document.getElementById('variants');
-        const newVariant = document.createElement('div');
-        newVariant.className = 'variant-row';
-        newVariant.innerHTML = `
-            <input type="text" name="variants[${variantCount}][color]" placeholder="Цвет (например, Синий)">
-            <input type="text" name="variants[${variantCount}][size]" placeholder="Размер (например, M)">
-            <input type="number" name="variants[${variantCount}][price]" step="0.01" placeholder="Цена (если отличается)">
-            <input type="number" name="variants[${variantCount}][quantity]" placeholder="Количество на складе" value="0">
-            <button type="button" class="remove-variant" onclick="this.parentElement.remove()">Удалить</button>
-        `;
-        variantsDiv.appendChild(newVariant);
-        variantCount++;
-    }
-</script>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Фото</th>
+            <th>Категория</th>
+            <th>Подкатегория</th>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Старая цена</th>
+            <th>Новинка</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (empty($products)): ?>
+            <tr>
+                <td colspan="9" style="text-align: center; padding: 30px;">
+                    Товаров пока нет. <a href="create.php">Добавить первый товар</a>
+                </td>
+            </tr>
+        <?php else: ?>
+            <?php foreach ($products as $product): 
+                $subcategory = $product->getSubcategory();
+                $category = $subcategory ? $subcategory->getCategory() : null;
+                $mainImage = $product->getMainImage();
+            ?>
+            <tr>
+                <td><?php echo $product->id; ?></td>
+                <td>
+                    <?php if ($mainImage): ?>
+                        <img src="<?php echo htmlspecialchars($mainImage->image_url); ?>" 
+                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                    <?php else: ?>
+                        <span style="color: #999;">нет фото</span>
+                    <?php endif; ?>
+                </td>
+                <td><?php echo $category ? htmlspecialchars($category->name) : '-'; ?></td>
+                <td><?php echo $subcategory ? htmlspecialchars($subcategory->name) : '-'; ?></td>
+                <td><?php echo htmlspecialchars($product->name); ?></td>
+                <td><?php echo number_format($product->price, 0, '.', ' '); ?> ₽</td>
+                <td>
+                    <?php if ($product->old_price && $product->old_price > $product->price): ?>
+                        <span style="color: #999; text-decoration: line-through;">
+                            <?php echo number_format($product->old_price, 0, '.', ' '); ?> ₽
+                        </span>
+                    <?php else: ?>
+                        -
+                    <?php endif; ?>
+                </td>
+                <td><?php echo $product->is_new ? 'Да' : 'Нет'; ?></td>
+                <td>
+                    <a href="update.php?id=<?php echo $product->id; ?>" class="btn btn-edit">Изменить</a>
+                    <a href="delete.php?id=<?php echo $product->id; ?>" class="btn btn-delete" 
+                       onclick="return confirm('Точно удалить товар?')">Удалить</a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </tbody>
+</table>
 
 <?php include '../templates/admin-footer.php'; ?>
