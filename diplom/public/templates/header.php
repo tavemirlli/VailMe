@@ -1,7 +1,6 @@
 <?php
 $currentPage = basename($_SERVER['PHP_SELF']);
-// Определяем базовый URL для правильных путей
-$base_url = ''; // Пустой для относительных путей
+$base_url = '';
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -11,6 +10,7 @@ $base_url = ''; // Пустой для относительных путей
     <title><?php echo $pageTitle ?? 'VailMe - интернет-магазин'; ?></title>
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/categories.css">
+    <link rel="stylesheet" href="assets/css/home.css">
 </head>
 <body>
     <div class="container">

@@ -25,7 +25,6 @@ include 'templates/header.php';
 <link rel="stylesheet" href="assets/css/categories.css">
 <div class="main-content">
     <h1>Категории</h1>
-
     <div class="categories-section">
         <?php if (empty($mainCategories)): ?>
             <p>Нет доступных категорий</p>

@@ -126,5 +126,9 @@ abstract class BaseModel {
     public function toArray() {
         return $this->data;
     }
+    
+    public function getData() {
+        return $this->data;
+    }
 }
 ?>

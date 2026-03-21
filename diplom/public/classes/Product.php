@@ -1,7 +1,8 @@
 <?php
 require_once 'BaseModel.php';
-require_once 'ProductVariant.php'; // <-- Добавьте эту строку
-require_once 'ProductImage.php';  
+require_once 'ProductVariant.php';
+require_once 'ProductImage.php';
+require_once 'Subcategory.php';
 
 class Product extends BaseModel {
     protected $table = 'products';
@@ -12,6 +13,34 @@ class Product extends BaseModel {
     private $variants = null;
     private $images = null;
     
+    public function getName() {
+        return isset($this->data['name']) ? $this->data['name'] : '';
+    }
+    
+    public function getPrice() {
+        return isset($this->data['price']) ? (float)$this->data['price'] : 0;
+    }
+    
+    public function getId() {
+        return isset($this->data['id']) ? (int)$this->data['id'] : 0;
+    }
+    
+    public function getOldPrice() {
+        return isset($this->data['old_price']) ? (float)$this->data['old_price'] : null;
+    }
+    
+    public function getIsNew() {
+        return isset($this->data['is_new']) ? (int)$this->data['is_new'] : 0;
+    }
+    
+    public function getDescription() {
+        return isset($this->data['description']) ? $this->data['description'] : '';
+    }
+    
+    public function getSubcategoryId() {
+        return isset($this->data['subcategory_id']) ? (int)$this->data['subcategory_id'] : 0;
+    }
+    
     public function getSubcategory() {
         if ($this->subcategory === null && isset($this->data['subcategory_id'])) {
             $this->subcategory = Subcategory::findById($this->data['subcategory_id']);
@@ -20,7 +49,7 @@ class Product extends BaseModel {
     }
     
     public function getVariants() {
-        if ($this->variants === null) {
+        if ($this->variants === null && isset($this->data['id'])) {
             $sql = "SELECT * FROM product_variants WHERE product_id = {$this->data['id']}";
             $result = $this->db->query($sql);
             $rows = $this->db->fetchAll($result);
@@ -36,7 +65,7 @@ class Product extends BaseModel {
     }
     
     public function getImages() {
-        if ($this->images === null) {
+        if ($this->images === null && isset($this->data['id'])) {
             $sql = "SELECT * FROM product_images WHERE product_id = {$this->data['id']} ORDER BY is_main DESC";
             $result = $this->db->query($sql);
             $rows = $this->db->fetchAll($result);
@@ -51,29 +80,34 @@ class Product extends BaseModel {
         return $this->images;
     }
     
+    // ДОБАВЛЯЕМ ЭТОТ МЕТОД
     public function getMainImage() {
         $images = $this->getImages();
         foreach ($images as $image) {
-            if ($image->is_main) {
+            if (isset($image->is_main) && $image->is_main) {
                 return $image;
             }
         }
-        return $images[0] ?? null;
+        return !empty($images) ? $images[0] : null;
     }
     
     public function getFinalPrice() {
-        return $this->data['old_price'] ?? $this->data['price'];
+        return $this->getOldPrice() ?? $this->getPrice();
     }
     
     public function getDiscountPercent() {
-        if (isset($this->data['old_price']) && $this->data['old_price'] > $this->data['price']) {
-            return round((($this->data['old_price'] - $this->data['price']) / $this->data['old_price']) * 100);
+        $oldPrice = $this->getOldPrice();
+        $price = $this->getPrice();
+        if ($oldPrice && $oldPrice > $price) {
+            return round((($oldPrice - $price) / $oldPrice) * 100);
         }
         return 0;
     }
     
     public function isOnSale() {
-        return isset($this->data['old_price']) && $this->data['old_price'] > $this->data['price'];
+        $oldPrice = $this->getOldPrice();
+        $price = $this->getPrice();
+        return $oldPrice && $oldPrice > $price;
     }
     
     public function saveWithVariants($variants = []) {
