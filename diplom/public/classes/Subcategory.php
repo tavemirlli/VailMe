@@ -56,5 +56,6 @@ class Subcategory extends BaseModel {
         
         return $subcategories;
     }
+    
 }
 ?>

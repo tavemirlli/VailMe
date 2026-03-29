@@ -23,7 +23,7 @@ include 'templates/header.php';
 
 
     <div class="main-content">
-
+    <a href="admin/index.php" class="<?php echo $currentPage == 'index.php' ? 'active' : ''; ?>">Перейти в админку</a>
         <div class="hero-section">
             <div class="hero-text">
                 <h2><?php echo htmlspecialchars($heroData['title']); ?></h2>

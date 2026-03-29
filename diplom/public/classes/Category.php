@@ -71,5 +71,24 @@ class Category extends BaseModel {
         
         return $categories;
     }
+    public function getAllProducts() {
+    $db = Database::getInstance();
+    $sql = "SELECT p.* FROM products p
+            JOIN subcategories s ON p.subcategory_id = s.id
+            WHERE s.category_id = {$this->id}
+            ORDER BY p.id DESC";
+    $result = $db->query($sql);
+    $rows = $db->fetchAll($result);
+    
+    $products = [];
+    if (!empty($rows)) {
+        foreach ($rows as $row) {
+            $product = new Product();
+            $product->data = $row;
+            $products[] = $product;
+        }
+    }
+    return $products;
+}
 }
 ?>

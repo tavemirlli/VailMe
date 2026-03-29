@@ -11,6 +11,7 @@ $base_url = '';
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/categories.css">
     <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="assets/css/catalog.css">
 </head>
 <body>
     <div class="container">

@@ -65,31 +65,42 @@ class Product extends BaseModel {
     }
     
     public function getImages() {
-        if ($this->images === null && isset($this->data['id'])) {
-            $sql = "SELECT * FROM product_images WHERE product_id = {$this->data['id']} ORDER BY is_main DESC";
-            $result = $this->db->query($sql);
-            $rows = $this->db->fetchAll($result);
-            
-            $this->images = [];
+    if ($this->images === null && isset($this->data['id'])) {
+        $sql = "SELECT * FROM product_images WHERE product_id = {$this->data['id']} ORDER BY is_main DESC";
+        $result = $this->db->query($sql);
+        $rows = $this->db->fetchAll($result);
+        
+        $this->images = [];
+        if (!empty($rows)) {
             foreach ($rows as $row) {
                 $image = new ProductImage();
                 $image->data = $row;
                 $this->images[] = $image;
             }
         }
-        return $this->images;
     }
+    return $this->images ?? [];
+}
     
     // ДОБАВЛЯЕМ ЭТОТ МЕТОД
     public function getMainImage() {
-        $images = $this->getImages();
+    // Получаем все изображения товара
+    $images = $this->getImages();
+    
+    // Если изображения есть
+    if (!empty($images)) {
+        // Ищем главное изображение (is_main = 1)
         foreach ($images as $image) {
-            if (isset($image->is_main) && $image->is_main) {
+            if (isset($image->is_main) && $image->is_main == 1) {
                 return $image;
             }
         }
-        return !empty($images) ? $images[0] : null;
+        // Если главного нет, возвращаем первое
+        return $images[0];
     }
+    
+    return null;
+}
     
     public function getFinalPrice() {
         return $this->getOldPrice() ?? $this->getPrice();

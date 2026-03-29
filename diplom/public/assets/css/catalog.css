@@ -1,0 +1,252 @@
+/* Страница каталога - 2 колонки */
+.catalog-layout {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+/* Левая панель с категориями */
+.catalog-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.sidebar-section {
+    background: #f9f9f9;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #eee;
+}
+
+.sidebar-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #F0B1D3;
+    color: #333;
+}
+
+.sidebar-categories {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-category {
+    margin-bottom: 5px;
+}
+
+.sidebar-category > a {
+    display: block;
+    padding: 10px 12px;
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.sidebar-category > a:hover {
+    background: #f0f0f0;
+    color: #F0B1D3;
+}
+
+.sidebar-category > a.active {
+    background: #F0B1D3;
+    color: white;
+}
+
+/* Подкатегории */
+.sidebar-subcategories {
+    list-style: none;
+    padding-left: 20px;
+    margin: 5px 0 10px 0;
+}
+
+.sidebar-subcategories li {
+    margin: 3px 0;
+}
+
+.sidebar-subcategories a {
+    display: block;
+    padding: 8px 12px;
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.sidebar-subcategories a:hover {
+    background: #f0f0f0;
+    color: #F0B1D3;
+}
+
+.sidebar-subcategories a.active {
+    background: #F0B1D3;
+    color: white;
+}
+
+/* Правая часть с товарами */
+.catalog-products {
+    flex: 1;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.product-image {
+    height: 200px;
+    background: #f5f5f5;
+    overflow: hidden;
+    position: relative;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.no-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    color: #999;
+}
+
+.badge-new,
+.badge-sale {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-new {
+    background: #4CAF50;
+    color: white;
+}
+
+.badge-sale {
+    background: #ff5722;
+    color: white;
+    left: auto;
+    right: 10px;
+}
+
+.product-info {
+    padding: 15px;
+}
+
+.product-title {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.product-title a {
+    text-decoration: none;
+    color: #333;
+}
+
+.product-title a:hover {
+    color: #F0B1D3;
+}
+
+.product-price {
+    margin-bottom: 12px;
+}
+
+.current-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #F0B1D3;
+}
+
+.old-price {
+    font-size: 14px;
+    color: #999;
+    text-decoration: line-through;
+    margin-right: 10px;
+}
+
+.btn-add {
+    display: block;
+    text-align: center;
+    padding: 8px;
+    background: #f5f5f5;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.btn-add:hover {
+    background: #F0B1D3;
+    color: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    color: #999;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .catalog-layout {
+        flex-direction: column;
+    }
+    
+    .catalog-sidebar {
+        width: 100%;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+}
