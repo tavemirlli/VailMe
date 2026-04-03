@@ -7,7 +7,7 @@ require_once 'Subcategory.php';
 class Product extends BaseModel {
     protected $table = 'products';
     protected $primaryKey = 'id';
-    protected $fillable = ['subcategory_id', 'name', 'description', 'price', 'old_price', 'is_new'];
+    protected $fillable = ['subcategory_id', 'category_id', 'name', 'description', 'price', 'old_price', 'is_new'];
     
     private $subcategory = null;
     private $variants = null;
@@ -48,21 +48,7 @@ class Product extends BaseModel {
         return $this->subcategory;
     }
     
-    public function getVariants() {
-        if ($this->variants === null && isset($this->data['id'])) {
-            $sql = "SELECT * FROM product_variants WHERE product_id = {$this->data['id']}";
-            $result = $this->db->query($sql);
-            $rows = $this->db->fetchAll($result);
-            
-            $this->variants = [];
-            foreach ($rows as $row) {
-                $variant = new ProductVariant();
-                $variant->data = $row;
-                $this->variants[] = $variant;
-            }
-        }
-        return $this->variants;
-    }
+
     
     public function getImages() {
     if ($this->images === null && isset($this->data['id'])) {
@@ -152,5 +138,22 @@ class Product extends BaseModel {
             return false;
         }
     }
+    public function getVariants() {
+    if ($this->variants === null && isset($this->data['id'])) {
+        $sql = "SELECT * FROM product_variants WHERE product_id = {$this->data['id']}";
+        $result = $this->db->query($sql);
+        $rows = $this->db->fetchAll($result);
+        
+        $this->variants = [];
+        if (!empty($rows)) {
+            foreach ($rows as $row) {
+                $variant = new ProductVariant();
+                $variant->data = $row;
+                $this->variants[] = $variant;
+            }
+        }
+    }
+    return $this->variants ?? [];
+}
 }
 ?>

@@ -11,7 +11,7 @@ class HomePage {
     
     public function getHeroData() {
         return [
-            'title' => 'Поверьте слова',
+            'title' => 'VailMe',
             'subtitle' => 'Откройте для себя новый стиль',
             'button_text' => 'Войти',
             'button_link' => '/login.php',
@@ -41,13 +41,9 @@ class HomePage {
     }
     
     public function getWomenProducts($limit = 4) {
-        try {
-            $limit = (int)$limit;
-            // Получаем товары из категории "Женская одежда" (category_id = 1)
-            $sql = "SELECT p.* FROM products p
-                    JOIN subcategories s ON p.subcategory_id = s.id
-                    WHERE s.category_id = 1
-                    ORDER BY p.id DESC LIMIT $limit";
+    try {
+        // Женские товары - подкатегория ID = 1
+        $sql = "SELECT * FROM products ORDER BY id DESC LIMIT " . (int)$limit;
             $result = $this->db->query($sql);
             $rows = $this->db->fetchAll($result);
             
@@ -63,9 +59,29 @@ class HomePage {
             return $products;
         } catch (Exception $e) {
             return [];
-        }
     }
-    
+}
+
+public function getMenProducts($limit = 4) {
+    try {
+        $sql = "SELECT * FROM products ORDER BY id DESC LIMIT " . (int)$limit;
+            $result = $this->db->query($sql);
+            $rows = $this->db->fetchAll($result);
+            
+            $products = [];
+            if (!empty($rows)) {
+                foreach ($rows as $row) {
+                    $product = new Product();
+                    $product->data = $row;
+                    $products[] = $product;
+                }
+            }
+            
+            return $products;
+        } catch (Exception $e) {
+            return [];
+    }
+}
     public function getOrderSteps() {
         return [
             ['number' => 1, 'text' => 'Соберите карман'],
@@ -74,5 +90,7 @@ class HomePage {
             ['number' => 4, 'text' => 'Дождитесь сообщения командиров']
         ];
     }
+
 }
+
 ?>

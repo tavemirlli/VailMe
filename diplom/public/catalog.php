@@ -73,10 +73,13 @@ include 'templates/header.php';
         <h1>
             <?php 
             if ($subcategoryName) {
+                // Если выбрана подкатегория - показываем её название
                 echo htmlspecialchars($subcategoryName);
             } elseif ($categoryName) {
+                // Если выбрана только категория - показываем её название
                 echo htmlspecialchars($categoryName);
             } else {
+                // Если ничего не выбрано
                 echo 'Все товары';
             }
             ?>

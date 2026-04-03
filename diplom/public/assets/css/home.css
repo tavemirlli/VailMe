@@ -49,7 +49,121 @@
     font-size: 14px;
     border-radius: 8px;
 }
+.categories-circle-section {
+    margin: 60px 0;
+    padding: 0 20px;
+}
 
+.categories-circle-list {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.category-circle-item {
+    text-align: center;
+    flex: 0 0 auto;
+    width: 100px;
+}
+
+.category-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 15px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    border: 2px solid #f0f0f0;
+}
+
+.category-circle:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border-color: #F0B1D3;
+}
+
+.category-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-image-circle {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e0e0e0;
+    color: #999;
+    font-size: 10px;
+    text-align: center;
+}
+
+.category-circle-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    display: block;
+    text-align: center;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .categories-circle-list {
+        gap: 20px;
+    }
+    
+    .category-circle-item {
+        width: 80px;
+    }
+    
+    .category-circle {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .category-circle-name {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 550px) {
+    .categories-circle-list {
+        gap: 15px;
+    }
+    
+    .category-circle-item {
+        width: 70px;
+    }
+    
+    .category-circle {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .category-circle-name {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 450px) {
+    .category-circle-item {
+        width: 60px;
+    }
+    
+    .category-circle {
+        width: 60px;
+        height: 60px;
+    }
+}
 /* Товары недели */
 .weekly-products {
     padding: 0 20px;
@@ -131,10 +245,7 @@
 .catalog-banner {
     text-align: center;
     padding: 30px;
-    background: #f9f9f9;
     margin: 0 20px 60px 20px;
-    border-radius: 12px;
-    border: 1px solid #eee;
 }
 
 .btn-catalog {
@@ -149,7 +260,7 @@
 }
 
 .btn-catalog:hover {
-    background: #e091b8;
+    background: #ff65b2;
     transform: translateY(-2px);
 }
 
@@ -354,7 +465,32 @@
     color: #F0B1D3;
     margin-top: 5px;
 }
+/* Секция для мужчин (аналогично женской) */
+.men-section {
+    padding: 0 20px;
+    margin-bottom: 60px;
+}
 
+.men-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #F0B1D3;
+    padding-bottom: 10px;
+}
+
+.men-section .section-header h3 {
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+}
+
+.men-section .steps-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
 /* Адаптивность */
 @media (max-width: 1024px) {
     .products-list,

@@ -1,0 +1,297 @@
+/* Страница новинок */
+
+/* Рекламный баннер */
+.promo-banner {
+    background: linear-gradient(135deg, #F0B1D3 0%, #e091b8 100%);
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+    border-radius: 20px;
+    margin-bottom: 50px;
+}
+
+.promo-content h3 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.promo-content p {
+    font-size: 18px;
+    margin-bottom: 25px;
+    opacity: 0.9;
+}
+
+.btn-promo {
+    display: inline-block;
+    padding: 12px 35px;
+    background: white;
+    color: #F0B1D3;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-promo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Строка товаров - 3 в ряд */
+.products-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+/* Обычные карточки товаров */
+.product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.product-image {
+    height: 250px;
+    background: #f5f5f5;
+    overflow: hidden;
+    position: relative;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.no-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    color: #999;
+}
+
+/* Заглушка для отсутствующих товаров */
+.product-card.placeholder {
+    opacity: 0.6;
+    background: #f9f9f9;
+}
+
+.product-card.placeholder .no-image {
+    background: #e8e8e8;
+}
+
+/* Бейджи новинка и скидка */
+.badge-new,
+.badge-sale {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-new {
+    background: #4CAF50;
+    color: white;
+}
+
+.badge-sale {
+    background: #ff5722;
+    color: white;
+    left: auto;
+    right: 10px;
+}
+
+/* Информация о товаре */
+.product-info {
+    padding: 15px;
+}
+
+.product-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.product-title a {
+    text-decoration: none;
+    color: #333;
+}
+
+.product-title a:hover {
+    color: #F0B1D3;
+}
+
+.product-price {
+    margin-bottom: 15px;
+}
+
+.current-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #F0B1D3;
+}
+
+.old-price {
+    font-size: 14px;
+    color: #999;
+    text-decoration: line-through;
+    margin-right: 10px;
+}
+
+.btn-add {
+    display: block;
+    text-align: center;
+    padding: 8px;
+    background: #f5f5f5;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.btn-add:hover {
+    background: #F0B1D3;
+    color: white;
+}
+
+/* Рекламный баннер между строками */
+.promo-banner-middle {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 20px;
+    margin: 40px 0;
+}
+
+.promo-content-middle h3 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.promo-content-middle p {
+    font-size: 18px;
+    margin-bottom: 25px;
+    opacity: 0.9;
+}
+
+.btn-promo-middle {
+    display: inline-block;
+    padding: 12px 35px;
+    background: white;
+    color: #ff6b6b;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-promo-middle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Кнопка к каталогу */
+.catalog-button-section {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.btn-catalog-large {
+    display: inline-block;
+    padding: 15px 50px;
+    background: #F0B1D3;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-catalog-large:hover {
+    background: #e091b8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    color: #999;
+    grid-column: 1 / -1;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .products-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .promo-content h3,
+    .promo-content-middle h3 {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .products-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .promo-content h3,
+    .promo-content-middle h3 {
+        font-size: 24px;
+    }
+    
+    .promo-content p,
+    .promo-content-middle p {
+        font-size: 14px;
+    }
+    
+    .btn-catalog-large {
+        padding: 12px 35px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 550px) {
+    .products-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .promo-banner,
+    .promo-banner-middle {
+        padding: 30px 15px;
+    }
+    
+    .promo-content h3,
+    .promo-content-middle h3 {
+        font-size: 20px;
+    }
+}
