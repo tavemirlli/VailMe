@@ -57,7 +57,8 @@ include 'templates/header.php';
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">
-                            <a href="product.php?id=<?php echo $product->getId(); ?>">
+                            <!-- ИСПРАВЛЕНО: ссылка на папку products -->
+                            <a href="products/index.php?id=<?php echo $product->getId(); ?>">
                                 <?php echo htmlspecialchars($product->getName()); ?>
                             </a>
                         </h3>
@@ -108,7 +109,8 @@ include 'templates/header.php';
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">
-                            <a href="product.php?id=<?php echo $product->getId(); ?>">
+                            <!-- ИСПРАВЛЕНО: ссылка на папку products -->
+                            <a href="products/index.php?id=<?php echo $product->getId(); ?>">
                                 <?php echo htmlspecialchars($product->getName()); ?>
                             </a>
                         </h3>

@@ -50,37 +50,35 @@ include 'templates/header.php';
             <?php echo $heroData['image_size']; ?>
         </div>
     </div>
+    
     <!-- Категории в круглешках -->
-<div class="categories-circle-section">
-    <div class="section-header">
-        <h3>Категории</h3>
-        <a href="categories.php" class="section-link">Все категории →</a>
-    </div>
-    <div class="categories-circle-list">
-        <?php 
-        $allCategories = Category::findAll('name');
-        $displayCategories = ['Новинки', 'Кроссовки', 'Верхняя одежда', 'Мужская одежда', 'Женская одежда'];
-        foreach ($allCategories as $category):
-            if (in_array($category->name, $displayCategories)):
-                $categoryImage = $category->getImageUrl();
-        ?>
-        <div class="category-circle-item">
-            <div class="category-circle">
-                <?php if ($categoryImage): ?>
-                    <img src="<?php echo htmlspecialchars($categoryImage); ?>" 
-                         alt="<?php echo htmlspecialchars($category->name); ?>">
-                <?php else: ?>
-                    <div class="no-image-circle">Нет фото</div>
-                <?php endif; ?>
-            </div>
-            <span class="category-circle-name"><?php echo htmlspecialchars($category->name); ?></span>
+    <div class="categories-circle-section">
+        <div class="section-header">
+            <h3>Категории</h3>
+            <a href="categories.php" class="section-link">Все категории →</a>
         </div>
-        <?php 
-            endif;
-        endforeach; 
-        ?>
+        <div class="categories-circle-list">
+            <?php 
+            $allCategories = Category::findAll('name');
+            $displayCategories = array_slice($allCategories, 0, 5);
+            foreach ($displayCategories as $category):
+                $categoryImage = $category->getImageUrl();
+            ?>
+            <div class="category-circle-item">
+                <div class="category-circle">
+                    <?php if ($categoryImage): ?>
+                        <img src="<?php echo htmlspecialchars($categoryImage); ?>" 
+                             alt="<?php echo htmlspecialchars($category->name); ?>">
+                    <?php else: ?>
+                        <div class="no-image-circle">Нет фото</div>
+                    <?php endif; ?>
+                </div>
+                <span class="category-circle-name"><?php echo htmlspecialchars($category->name); ?></span>
+            </div>
+            <?php endforeach; ?>
+        </div>
     </div>
-</div>
+    
     <!-- Товары недели -->
     <div class="weekly-products">
         <div class="section-header">
@@ -104,7 +102,8 @@ include 'templates/header.php';
                         <?php endif; ?>
                     </div>
                     <div class="product-name">
-                        <a href="product.php?id=<?php echo $product->getId(); ?>">
+                        <!-- ИСПРАВЛЕНО: ссылка на папку products -->
+                        <a href="products/index.php?id=<?php echo $product->getId(); ?>">
                             <?php echo htmlspecialchars($product->getName()); ?>
                         </a>
                     </div>
@@ -119,7 +118,7 @@ include 'templates/header.php';
         <a href="catalog.php" class="btn-catalog">К каталогу</a>
     </div>
 
-    <!-- Секция для женщин (category_id = 1) -->
+    <!-- Секция для женщин -->
     <div class="women-section">
         <div class="section-header">
             <h3>Для женщин →</h3>
@@ -142,7 +141,8 @@ include 'templates/header.php';
                         <?php endif; ?>
                     </div>
                     <div class="product-name">
-                        <a href="product.php?id=<?php echo $product->getId(); ?>">
+                        <!-- ИСПРАВЛЕНО: ссылка на папку products -->
+                        <a href="products/index.php?id=<?php echo $product->getId(); ?>">
                             <?php echo htmlspecialchars($product->getName()); ?>
                         </a>
                     </div>
@@ -153,7 +153,7 @@ include 'templates/header.php';
         </div>
     </div>
 
-    <!-- Секция для мужчин (category_id = 2) -->
+    <!-- Секция для мужчин -->
     <div class="men-section">
         <div class="section-header">
             <h3>Для мужчин →</h3>
@@ -176,7 +176,8 @@ include 'templates/header.php';
                         <?php endif; ?>
                     </div>
                     <div class="product-name">
-                        <a href="product.php?id=<?php echo $product->getId(); ?>">
+                        <!-- ИСПРАВЛЕНО: ссылка на папку products -->
+                        <a href="products/index.php?id=<?php echo $product->getId(); ?>">
                             <?php echo htmlspecialchars($product->getName()); ?>
                         </a>
                     </div>

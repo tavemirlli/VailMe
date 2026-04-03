@@ -18,19 +18,16 @@ if ($allCategories === null) {
 $products = [];
 
 if ($selectedSubcategoryId > 0) {
-    // Если выбрана подкатегория
     $subcategory = Subcategory::findById($selectedSubcategoryId);
     if ($subcategory) {
         $products = $subcategory->getProducts();
     }
 } elseif ($selectedCategoryId > 0) {
-    // Если выбрана категория
     $category = Category::findById($selectedCategoryId);
     if ($category) {
         $products = $category->getAllProducts();
     }
 } else {
-    // Если ничего не выбрано - показываем первую категорию
     if (!empty($allCategories)) {
         $firstCategory = $allCategories[0];
         $selectedCategoryId = $firstCategory->id;
@@ -44,7 +41,6 @@ if ($products === null) {
     $products = [];
 }
 
-// Получаем название выбранной категории для заголовка
 $categoryName = '';
 if ($selectedCategoryId > 0) {
     $category = Category::findById($selectedCategoryId);
@@ -73,13 +69,10 @@ include 'templates/header.php';
         <h1>
             <?php 
             if ($subcategoryName) {
-                // Если выбрана подкатегория - показываем её название
                 echo htmlspecialchars($subcategoryName);
             } elseif ($categoryName) {
-                // Если выбрана только категория - показываем её название
                 echo htmlspecialchars($categoryName);
             } else {
-                // Если ничего не выбрано
                 echo 'Все товары';
             }
             ?>
@@ -149,7 +142,8 @@ include 'templates/header.php';
                                 </div>
                                 <div class="product-info">
                                     <h3 class="product-title">
-                                        <a href="product.php?id=<?php echo $product->getId(); ?>">
+                                        <!-- ИСПРАВЛЕНО: ссылка на папку products -->
+                                        <a href="products/index.php?id=<?php echo $product->getId(); ?>">
                                             <?php echo htmlspecialchars($product->getName()); ?>
                                         </a>
                                     </h3>

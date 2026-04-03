@@ -49,6 +49,7 @@
     font-size: 14px;
     border-radius: 8px;
 }
+/* Категории в круглешках */
 .categories-circle-section {
     margin: 60px 0;
     padding: 0 20px;
@@ -115,7 +116,7 @@
     text-align: center;
 }
 
-/* Адаптивность */
+/* Адаптивность - для 5 категорий центровка */
 @media (max-width: 768px) {
     .categories-circle-list {
         gap: 20px;
@@ -138,6 +139,7 @@
 @media (max-width: 550px) {
     .categories-circle-list {
         gap: 15px;
+        justify-content: center;
     }
     
     .category-circle-item {
@@ -164,6 +166,7 @@
         height: 60px;
     }
 }
+
 /* Товары недели */
 .weekly-products {
     padding: 0 20px;
