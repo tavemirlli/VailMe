@@ -142,7 +142,6 @@ include 'templates/header.php';
                                 </div>
                                 <div class="product-info">
                                     <h3 class="product-title">
-                                        <!-- ИСПРАВЛЕНО: ссылка на папку products -->
                                         <a href="products/index.php?id=<?php echo $product->getId(); ?>">
                                             <?php echo htmlspecialchars($product->getName()); ?>
                                         </a>
@@ -155,7 +154,7 @@ include 'templates/header.php';
                                             <span class="current-price"><?php echo number_format($product->getPrice(), 0, '.', ' '); ?> ₽</span>
                                         <?php endif; ?>
                                     </div>
-                                    <a href="cart/add.php?id=<?php echo $product->getId(); ?>" class="btn-add">В корзину</a>
+                                   
                                 </div>
                             </div>
                         <?php endforeach; ?>

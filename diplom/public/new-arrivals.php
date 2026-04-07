@@ -70,7 +70,7 @@ include 'templates/header.php';
                                 <span class="current-price"><?php echo number_format($product->getPrice(), 0, '.', ' '); ?> ₽</span>
                             <?php endif; ?>
                         </div>
-                        <a href="cart/add.php?id=<?php echo $product->getId(); ?>" class="btn-add">В корзину</a>
+                        
                     </div>
                 </div>
             <?php endfor; ?>

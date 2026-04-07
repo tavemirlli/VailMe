@@ -84,10 +84,10 @@ public function getMenProducts($limit = 4) {
 }
     public function getOrderSteps() {
         return [
-            ['number' => 1, 'text' => 'Соберите карман'],
-            ['number' => 2, 'text' => 'Нажмите "Оформлять знаки"'],
-            ['number' => 3, 'text' => 'Уложите данные для связи'],
-            ['number' => 4, 'text' => 'Дождитесь сообщения командиров']
+            ['number' => 1, 'text' => 'Соберите корзину'],
+            ['number' => 2, 'text' => 'Нажмите "Оформить заказ"'],
+            ['number' => 3, 'text' => 'Укажите данные для связи'],
+            ['number' => 4, 'text' => 'Дождитесь сообщения администратора']
         ];
     }
 

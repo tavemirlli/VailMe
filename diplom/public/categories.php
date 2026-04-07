@@ -45,7 +45,6 @@ include 'templates/header.php';
 
         <div class="frame-104">
             <div class="frame-label">Frame 104</div>
-            <div class="frame-size">1384 × 1081</div>
         </div>
 
     </div>

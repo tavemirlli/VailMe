@@ -1,0 +1,253 @@
+/* Страница корзины */
+.cart-page {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.cart-items {
+    margin-bottom: 30px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    gap: 20px;
+}
+
+.cart-item-image {
+    width: 100px;
+    height: 100px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cart-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e0e0e0;
+    color: #999;
+    font-size: 12px;
+}
+
+.cart-item-info {
+    flex: 2;
+}
+
+.cart-item-info h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.cart-item-price {
+    color: #666;
+    font-size: 14px;
+}
+
+.cart-item-variant {
+    color: #999;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Управление количеством - как на странице товара */
+.cart-item-quantity {
+    width: 100px;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    overflow: hidden;
+    width: fit-content;
+}
+
+.quantity-btn {
+    width: 32px;
+    height: 32px;
+    background: #f5f5f5;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+.quantity-btn:hover {
+    background: #e0e0e0;
+}
+
+.quantity-value {
+    width: 40px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.cart-item-total {
+    width: 120px;
+    font-weight: bold;
+    color: #F0B1D3;
+    text-align: right;
+}
+
+.cart-item-remove .remove-btn {
+    color: #999;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.cart-item-remove .remove-btn:hover {
+    color: #f44336;
+}
+
+.cart-summary {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: right;
+}
+
+.cart-total {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.total-amount {
+    font-weight: bold;
+    color: #F0B1D3;
+}
+
+.cart-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+.btn-update {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-checkout {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    background: #F0B1D3;
+    color: white;
+}
+
+.btn-continue {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #F0B1D3;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 60px;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background: white;
+    margin: 10% auto;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 16px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+}
+
+.modal-content input,
+.modal-content textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 15px;
+    background: #F0B1D3;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.info-text {
+    font-size: 12px;
+    color: #999;
+    margin-top: 15px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .cart-item {
+        flex-wrap: wrap;
+    }
+    .cart-item-image {
+        width: 80px;
+        height: 80px;
+    }
+    .cart-item-quantity {
+        width: auto;
+    }
+}

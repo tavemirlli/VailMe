@@ -1,0 +1,42 @@
+/* Детали заказа */
+.order-info,
+.customer-info,
+.items-list {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.actions {
+    margin-top: 30px;
+}
+
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #666;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.btn-resend {
+    padding: 10px 20px;
+    background: #F0B1D3;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}

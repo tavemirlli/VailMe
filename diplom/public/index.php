@@ -64,6 +64,8 @@ include 'templates/header.php';
             foreach ($displayCategories as $category):
                 $categoryImage = $category->getImageUrl();
             ?>
+            
+            <a href="catalog.php?category_id=<?php echo $category->id; ?>" class="category-name">
             <div class="category-circle-item">
                 <div class="category-circle">
                     <?php if ($categoryImage): ?>
@@ -74,7 +76,7 @@ include 'templates/header.php';
                     <?php endif; ?>
                 </div>
                 <span class="category-circle-name"><?php echo htmlspecialchars($category->name); ?></span>
-            </div>
+            </div></a>
             <?php endforeach; ?>
         </div>
     </div>

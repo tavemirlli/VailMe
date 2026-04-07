@@ -39,7 +39,7 @@ if ($variants === null || !is_array($variants)) {
 // СОБИРАЕМ УНИКАЛЬНЫЕ ЦВЕТА И РАЗМЕРЫ ИЗ ВАРИАНТОВ
 $colors = [];
 $sizes = [];
-$variantMap = []; // для быстрого поиска цены и количества
+$variantMap = [];
 
 foreach ($variants as $variant) {
     $color = $variant->color ?? '';
@@ -77,8 +77,7 @@ $defaultKey = $selectedColor . '|' . $selectedSize;
 $displayPrice = isset($variantMap[$defaultKey]) ? $variantMap[$defaultKey]['price'] : ($product->getPrice() ?? 0);
 $stockQuantity = isset($variantMap[$defaultKey]) ? $variantMap[$defaultKey]['quantity'] : 0;
 
-
-include '../templates/header2.php';
+include '../templates/header.php';
 ?>
 <link rel="stylesheet" href="../assets/css/product-page.css">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -93,7 +92,6 @@ include '../templates/header2.php';
         </div>
         
         <div class="product-page">
-            <!-- ЛЕВАЯ КОЛОНКА - ФОТО С ПЕРЕКЛЮЧЕНИЕМ -->
             <div class="product-gallery">
                 <div class="main-image">
                     <?php if ($mainImage): ?>
@@ -110,7 +108,7 @@ include '../templates/header2.php';
                         <div class="thumbnail <?php echo ($image->is_main) ? 'active' : ''; ?>">
                             <img src="<?php echo htmlspecialchars($image->image_url); ?>" 
                                  alt="<?php echo htmlspecialchars($product->getName()); ?>"
-                                 onclick="changeImage(this.src)">
+                                 onclick="changeImage(this.src, this)">
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -160,24 +158,25 @@ include '../templates/header2.php';
                 </div>
                 <?php endif; ?>
                 
-                <!-- КОЛИЧЕСТВО (без ползунка, только кнопки + и -) -->
-<div class="quantity-selector">
-    <label>Количество:</label>
-    <div class="quantity-wrapper">
-        <div class="quantity-control">
-            <button class="quantity-btn minus" type="button">-</button>
-            <span class="quantity-value" id="quantity-value">1</span>
-            <button class="quantity-btn plus" type="button">+</button>
-        </div>
-        <span class="stock-info" id="stock-info">
-            <?php if ($stockQuantity > 0): ?>
-                В наличии: <?php echo $stockQuantity; ?> шт.
-            <?php else: ?>
-                Нет в наличии
-            <?php endif; ?>
-        </span>
-    </div>
-</div>
+                <!-- КОЛИЧЕСТВО -->
+                <div class="quantity-selector">
+                    <label>Количество:</label>
+                    <div class="quantity-wrapper">
+                        <div class="quantity-control">
+                            <button class="quantity-btn minus" type="button">-</button>
+                            <span class="quantity-value" id="quantity-value">1</span>
+                            <button class="quantity-btn plus" type="button">+</button>
+                        </div>
+                        <span class="stock-info" id="stock-info">
+                            <?php if ($stockQuantity > 0): ?>
+                                В наличии: <?php echo $stockQuantity; ?> шт.
+                            <?php else: ?>
+                                Нет в наличии
+                            <?php endif; ?>
+                        </span>
+                    </div>
+                </div>
+                
                 <div class="product-actions">
                     <button class="btn-add-to-cart" onclick="addToCart(<?php echo $product->getId(); ?>)">В корзину</button>
                 </div>
@@ -206,15 +205,7 @@ include '../templates/header2.php';
         </div>
         <?php endif; ?>
         
-        <div class="product-footer-info">
-            <div class="info-block">
-                <h3>Информация</h3>
-                <p>8 988 888-88-88</p>
-            </div>
-            <div class="privacy-link">
-                <a href="#">Политика конфиденциальности</a>
-            </div>
-        </div>
+        
         
     </div>
 </div>
@@ -245,49 +236,32 @@ include '../templates/header2.php';
         let currentQuantity = 1;
         let maxQuantity = <?php echo $stockQuantity > 0 ? $stockQuantity : 99; ?>;
         
-        // НАХОДИМ ГЛАВНОЕ ФОТО (по классу, а не по ID)
-        let mainImage = document.querySelector('.main-image img');
-        
+        let mainImage = document.getElementById('main-product-image');
         if (!mainImage) {
-            mainImage = document.querySelector('#product-main-image');
+            mainImage = document.querySelector('.main-image img');
         }
         
-        console.log('Главное фото найдено: ' + (mainImage ? 'да' : 'нет'));
-        
-        // ФУНКЦИЯ ДЛЯ СМЕНЫ ФОТО
         window.changeImage = function(imageUrl, element) {
-            console.log('Смена фото на: ' + imageUrl);
-            
-            // Обновляем главное фото
             if (mainImage) {
                 mainImage.src = imageUrl;
-                console.log('Главное фото обновлено');
-            } else {
-                console.log('Главное фото НЕ найдено!');
             }
             
-            // Убираем активный класс со всех миниатюр
             const thumbnails = document.querySelectorAll('.thumbnail');
             for (let i = 0; i < thumbnails.length; i++) {
                 thumbnails[i].classList.remove('active');
             }
             
-            // Добавляем активный класс на выбранную
             if (element) {
                 element.classList.add('active');
             }
         };
         
-        // ПРИВЯЗКА К МИНИАТЮРАМ
         const thumbnails = document.querySelectorAll('.thumbnail');
-        console.log('Найдено миниатюр: ' + thumbnails.length);
-        
         for (let i = 0; i < thumbnails.length; i++) {
             thumbnails[i].onclick = function(e) {
                 e.preventDefault();
                 const img = this.querySelector('img');
                 if (img) {
-                    console.log('Клик по миниатюре, src: ' + img.src);
                     window.changeImage(img.src, this);
                 }
             };
@@ -327,12 +301,14 @@ include '../templates/header2.php';
             }
         }
         
+        // ФУНКЦИЯ ДОБАВЛЕНИЯ В КОРЗИНУ С ВЫБРАННЫМИ ЦВЕТОМ И РАЗМЕРОМ
         window.addToCart = function(productId) {
             const quantity = currentQuantity;
-            window.location.href = '../cart/add.php?id=' + productId + '&quantity=' + quantity + '&color=' + selectedColor + '&size=' + selectedSize;
+            const color = encodeURIComponent(selectedColor);
+            const size = encodeURIComponent(selectedSize);
+            window.location.href = '../cart.php?add=' + productId + '&quantity=' + quantity + '&color=' + color + '&size=' + size;
         };
         
-        // ВЫБОР ЦВЕТА
         const colorBtns = document.querySelectorAll('.color-btn');
         for (let i = 0; i < colorBtns.length; i++) {
             colorBtns[i].onclick = function() {
@@ -345,7 +321,6 @@ include '../templates/header2.php';
             };
         }
         
-        // ВЫБОР РАЗМЕРА
         const sizeBtns = document.querySelectorAll('.size-btn');
         for (let i = 0; i < sizeBtns.length; i++) {
             sizeBtns[i].onclick = function() {
@@ -358,7 +333,6 @@ include '../templates/header2.php';
             };
         }
         
-        // УПРАВЛЕНИЕ КОЛИЧЕСТВОМ
         const minusBtn = document.querySelector('.minus');
         const plusBtn = document.querySelector('.plus');
         
