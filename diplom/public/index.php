@@ -36,7 +36,6 @@ include 'templates/header.php';
 <link rel="stylesheet" href="assets/css/categories.css">
 
 <div class="main-content">
-    <a href="admin/index.php">Перейти в админку</a>
     
     <div class="hero-section">
         <div class="hero-text">

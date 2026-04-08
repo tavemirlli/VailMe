@@ -9,6 +9,8 @@ unset($_SESSION['order_success']);
 
 include 'templates/header.php';
 ?>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/auth.css">
 <div class="container">
     <div class="success-container">
         <h1>Заказ успешно оформлен!</h1>
@@ -21,9 +23,4 @@ include 'templates/header.php';
         <a href="catalog.php" class="btn">Продолжить покупки</a>
     </div>
 </div>
-<style>
-.success-container { text-align: center; padding: 60px 20px; }
-.success-message { margin: 30px 0; padding: 30px; background: #f9f9f9; border-radius: 16px; }
-.btn { display: inline-block; padding: 12px 30px; background: #F0B1D3; color: white; text-decoration: none; border-radius: 30px; }
-</style>
 <?php include 'templates/footer.php'; ?>

@@ -1,0 +1,128 @@
+
+.profile-container {
+    display: flex;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+.profile-sidebar {
+    width: 280px;
+    background: #f9f9f9;
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+}
+.avatar-placeholder {
+    width: 100px;
+    height: 100px;
+    background: #F0B1D3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+}
+.logout-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #ff5722;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+}
+.profile-tabs {
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+}
+.tab-btn {
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #666;
+}
+.tab-btn.active {
+    color: #F0B1D3;
+    border-bottom: 2px solid #F0B1D3;
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+.order-card {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+.status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+.status-new { background: #e3f2fd; color: #1976d2; }
+.status-processing { background: #fff3e0; color: #ff9800; }
+.status-shipped { background: #e8f5e9; color: #4caf50; }
+.status-delivered { background: #e8f5e9; color: #2e7d32; }
+.status-cancelled { background: #ffebee; color: #f44336; }
+.btn-order-details {
+    padding: 8px 16px;
+    background: #F0B1D3;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+.btn-save {
+    padding: 12px 30px;
+    background: #F0B1D3;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.success-message {
+    background: #e8f5e9;
+    color: #4caf50;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.error-message {
+    background: #ffebee;
+    color: #f44336;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+    }
+    .profile-sidebar {
+        width: 100%;
+    }
+}

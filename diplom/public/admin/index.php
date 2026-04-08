@@ -1,28 +1,36 @@
 <?php
+session_start();
+
+// Проверка прав администратора
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header('Location: ../index.php');
+    exit;
+}
+
 require_once '../config/db.php';
 require_once '../classes/Product.php';
 require_once '../classes/Category.php';
 require_once '../classes/Subcategory.php';
 require_once '../classes/ProductImage.php';
+require_once '../classes/Order.php';
 
-$pageTitle = 'Управление товарами';
-
-// Получаем все товары
+$pageTitle = 'Управление товарами - Админка';
 $products = Product::findAll('id DESC');
 
 // Получаем статистику
-$db = Database::getInstance();
 $statsSql = "SELECT 
                 COUNT(*) as total_products,
                 SUM(CASE WHEN is_new = 1 THEN 1 ELSE 0 END) as new_products
              FROM products";
-$statsResult = $db->query($statsSql);
-$stats = $db->fetchOne($statsResult);
+$statsResult = mysqli_query($connect, $statsSql);
+$stats = mysqli_fetch_assoc($statsResult);
 
 include '../templates/admin-header.php';
 ?>
 
 <h1>Управление товарами</h1>
+
+<a href="../index.php">Выйти</a>
 
 <?php if (isset($_GET['success'])): ?>
     <div class="success">Операция выполнена успешно!</div>
@@ -36,11 +44,14 @@ include '../templates/admin-header.php';
         <strong>Новинок:</strong> <?php echo $stats['new_products']; ?>
     </div>
     <div class="stat-box">
-        <a href="create.php" class="btn" style="background: #4CAF50;">+ Добавить новый товар</a>
+        <a href="create.php" class="btn" style="background: #4CAF50;">Добавить новый товар</a>
+    </div>
+    <div class="stat-box">
+        <a href="orders.php" class="btn" style="background: #F0B1D3;">Заказы</a>
     </div>
 </div>
 
-<table>
+<table class="products-table">
     <thead>
         <tr>
             <th>ID</th>
@@ -57,7 +68,7 @@ include '../templates/admin-header.php';
     <tbody>
         <?php if (empty($products)): ?>
             <tr>
-                <td colspan="9" style="text-align: center; padding: 30px;">
+                <td colspan="9">
                     Товаров пока нет. <a href="create.php">Добавить первый товар</a>
                 </td>
             </tr>
@@ -74,7 +85,7 @@ include '../templates/admin-header.php';
                         <img src="<?php echo htmlspecialchars($mainImage->image_url); ?>" 
                              style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
                     <?php else: ?>
-                        <span style="color: #999;">нет фото</span>
+                        <span>нет фото</span>
                     <?php endif; ?>
                 </td>
                 <td><?php echo $category ? htmlspecialchars($category->name) : '-'; ?></td>
@@ -83,7 +94,7 @@ include '../templates/admin-header.php';
                 <td><?php echo number_format($product->price, 0, '.', ' '); ?> ₽</td>
                 <td>
                     <?php if ($product->old_price && $product->old_price > $product->price): ?>
-                        <span style="color: #999; text-decoration: line-through;">
+                        <span>
                             <?php echo number_format($product->old_price, 0, '.', ' '); ?> ₽
                         </span>
                     <?php else: ?>

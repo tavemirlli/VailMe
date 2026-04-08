@@ -1,26 +1,24 @@
 <?php
 session_start();
 require_once '../config/db.php';
+require_once '../classes/Order.php';
 
-if (!isset($_SESSION['admin_logged'])) {
-    header('Location: orders.php');
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header('Location: ../index.php');
     exit;
 }
 
-$orderId = (int)$_GET['id'];
-$orderSql = "SELECT * FROM orders WHERE id = $orderId";
-$orderResult = mysqli_query($connect, $orderSql);
-$order = mysqli_fetch_assoc($orderResult);
+$orderId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$order = Order::getById($orderId);
+$items = Order::getOrderItems($orderId);
 
 if (!$order) {
     header('Location: orders.php');
     exit;
 }
 
-$itemsSql = "SELECT * FROM order_items WHERE order_id = $orderId";
-$itemsResult = mysqli_query($connect, $itemsSql);
+$pageTitle = 'Детали заказа №' . $order['order_number'] . ' - Админка';
 
-$pageTitle = 'Детали заказа - Админка';
 include '../templates/admin-header.php';
 ?>
 
@@ -29,8 +27,8 @@ include '../templates/admin-header.php';
 <div class="order-info">
     <h3>Информация о заказе</h3>
     <p><strong>Дата:</strong> <?php echo date('d.m.Y H:i', strtotime($order['created_at'])); ?></p>
-    <p><strong>Статус:</strong> <?php echo $order['order_status']; ?></p>
-    <p><strong>Счет отправлен:</strong> <?php echo $order['invoice_sent'] ? date('d.m.Y', strtotime($order['invoice_sent_at'])) : 'Нет'; ?></p>
+    <p><strong>Статус:</strong> <?php echo Order::getStatusText($order['order_status']); ?></p>
+    <p><strong>Счет отправлен:</strong> <?php echo $order['invoice_sent'] ? date('d.m.Y H:i', strtotime($order['invoice_sent_at'])) : 'Нет'; ?></p>
 </div>
 
 <div class="customer-info">
@@ -42,23 +40,60 @@ include '../templates/admin-header.php';
 </div>
 
 <div class="items-list">
-    <h3>Товары</h3>
-    <table>
-        <thead><tr><th>Товар</th><th>Кол-во</th><th>Цена</th><th>Сумма</th></tr></thead>
-        <tbody>
-            <?php while ($item = mysqli_fetch_assoc($itemsResult)): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($item['product_name']); ?></td>
-                <td><?php echo $item['quantity']; ?></td>
-                <td><?php echo number_format($item['product_price'], 0, '.', ' '); ?> ₽</td>
-                <td><?php echo number_format($item['total_price'], 0, '.', ' '); ?> ₽</td>
-            </tr>
-            <?php endwhile; ?>
-        </tbody>
-        <tfoot>
-            <tr><td colspan="3" style="text-align: right;"><strong>Итого:</strong></td><td><strong><?php echo number_format($order['total_amount'], 0, '.', ' '); ?> ₽</strong></td></tr>
-        </tfoot>
-    </table>
+    <h3>Товары в заказе</h3>
+    
+    <?php if (empty($items)): ?>
+        <div class="empty-items">
+            <p>Товары не найдены</p>
+        </div>
+    <?php else: ?>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Товар</th>
+                    <th>Цвет/Размер</th>
+                    <th>Кол-во</th>
+                    <th>Цена</th>
+                    <th>Сумма</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($items as $item): ?>
+                <tr>
+                    <td><?php echo $item['id']; ?></td>
+                    <td><?php echo htmlspecialchars($item['product_name']); ?></td>
+                    <td>
+                        <?php 
+                        // Получаем цвет и размер из варианта
+                        if ($item['variant_id']) {
+                            $variantSql = "SELECT color, size FROM product_variants WHERE id = {$item['variant_id']}";
+                            $variantResult = mysqli_query($connect, $variantSql);
+                            $variant = mysqli_fetch_assoc($variantResult);
+                            if ($variant) {
+                                echo htmlspecialchars($variant['color'] . ' / ' . $variant['size']);
+                            } else {
+                                echo '-';
+                            }
+                        } else {
+                            echo '-';
+                        }
+                        ?>
+                    </td>
+                    <td><?php echo $item['quantity']; ?></td>
+                    <td><?php echo number_format($item['product_price'], 0, '.', ' '); ?> ₽</td>
+                    <td><?php echo number_format($item['total_price'], 0, '.', ' '); ?> ₽</td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" style="text-align: right;"><strong>Итого:</strong></td>
+                    <td><strong><?php echo number_format($order['total_amount'], 0, '.', ' '); ?> ₽</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    <?php endif; ?>
 </div>
 
 <div class="actions">
@@ -70,12 +105,54 @@ include '../templates/admin-header.php';
 </div>
 
 <style>
-.order-info, .customer-info, .items-list { margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 12px; }
-table { width: 100%; border-collapse: collapse; }
-th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
-.actions { margin-top: 30px; }
-.btn-back { display: inline-block; padding: 10px 20px; background: #666; color: white; text-decoration: none; border-radius: 8px; margin-right: 10px; }
-.btn-resend { padding: 10px 20px; background: #F0B1D3; border: none; border-radius: 8px; cursor: pointer; }
+.order-info, .customer-info, .items-list {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+}
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.items-table th, .items-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.items-table th {
+    background: #f0f0f0;
+    font-weight: 600;
+}
+.items-table tfoot td {
+    border-top: 2px solid #ddd;
+    padding-top: 15px;
+    font-weight: bold;
+}
+.empty-items {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+.actions {
+    margin-top: 30px;
+}
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #666;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+.btn-resend {
+    padding: 10px 20px;
+    background: #F0B1D3;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
 </style>
 
 <?php include '../templates/admin-footer.php'; ?>

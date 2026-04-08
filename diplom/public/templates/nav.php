@@ -23,7 +23,6 @@ if (isset($_SESSION['cart'])) {
     
     <?php if (isset($_SESSION['user_id'])): ?>
         <a href="profile.php" class="profile-icon">👤</a>
-        <a href="logout.php" class="logout-icon">🚪</a>
     <?php else: ?>
         <a href="login.php" class="login-icon">👤</a>
     <?php endif; ?>

@@ -77,7 +77,7 @@ $defaultKey = $selectedColor . '|' . $selectedSize;
 $displayPrice = isset($variantMap[$defaultKey]) ? $variantMap[$defaultKey]['price'] : ($product->getPrice() ?? 0);
 $stockQuantity = isset($variantMap[$defaultKey]) ? $variantMap[$defaultKey]['quantity'] : 0;
 
-include '../templates/header.php';
+include '../templates/header2.php';
 ?>
 <link rel="stylesheet" href="../assets/css/product-page.css">
 <link rel="stylesheet" href="../assets/css/style.css">
