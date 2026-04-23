@@ -6,7 +6,6 @@ require_once 'classes/Category.php';
 
 $pageTitle = 'Новинки - VailMe';
 
-// Получаем товары с пометкой "новинка" (is_new = 1)
 $newProducts = Product::findAll('is_new DESC, id DESC LIMIT 6');
 
 if (empty($newProducts)) {
@@ -19,12 +18,11 @@ include 'templates/header.php';
 <link rel="stylesheet" href="assets/css/categories.css">
 <link rel="stylesheet" href="assets/css/new-arrivals.css">
 
-<div class="container">
+
     <div class="main-content">
         
         <h1>Новинки</h1>
         
-        <!-- Рекламный баннер -->
         <div class="promo-banner">
             <div class="promo-content">
                 <h3>Скидка за вход в аккаунт</h3>
@@ -33,7 +31,6 @@ include 'templates/header.php';
             </div>
         </div>
         
-        <!-- ПЕРВАЯ СТРОКА ТОВАРОВ (первые 3 товара) -->
         <div class="products-row">
             <?php for ($i = 0; $i < 3 && $i < count($newProducts); $i++): 
                 $product = $newProducts[$i];
@@ -41,6 +38,7 @@ include 'templates/header.php';
                 $isNew = $product->getIsNew();
             ?>
                 <div class="product-card">
+                    <a href="products/index.php?id=<?php echo $product->getId(); ?>">
                     <div class="product-image">
                         <?php if ($mainImage): ?>
                             <img src="<?php echo htmlspecialchars($mainImage->image_url); ?>" 
@@ -57,10 +55,9 @@ include 'templates/header.php';
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">
-                            <!-- ИСПРАВЛЕНО: ссылка на папку products -->
-                            <a href="products/index.php?id=<?php echo $product->getId(); ?>">
+                            
                                 <?php echo htmlspecialchars($product->getName()); ?>
-                            </a>
+                            
                         </h3>
                         <div class="product-price">
                             <?php if ($product->isOnSale()): ?>
@@ -70,13 +67,12 @@ include 'templates/header.php';
                                 <span class="current-price"><?php echo number_format($product->getPrice(), 0, '.', ' '); ?> ₽</span>
                             <?php endif; ?>
                         </div>
-                        
+                        </a>
                     </div>
                 </div>
             <?php endfor; ?>
         </div>
         
-        <!-- РЕКЛАМНЫЙ БАННЕР МЕЖДУ СТРОКАМИ -->
         <div class="promo-banner-middle">
             <div class="promo-content-middle">
                 <h3>🔥 Горячая распродажа 🔥</h3>
@@ -85,7 +81,6 @@ include 'templates/header.php';
             </div>
         </div>
         
-        <!-- ВТОРАЯ СТРОКА ТОВАРОВ (следующие 3 товара) -->
         <div class="products-row">
             <?php for ($i = 3; $i < 6 && $i < count($newProducts); $i++): 
                 $product = $newProducts[$i];
@@ -109,7 +104,6 @@ include 'templates/header.php';
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">
-                            <!-- ИСПРАВЛЕНО: ссылка на папку products -->
                             <a href="products/index.php?id=<?php echo $product->getId(); ?>">
                                 <?php echo htmlspecialchars($product->getName()); ?>
                             </a>
@@ -127,7 +121,6 @@ include 'templates/header.php';
                 </div>
             <?php endfor; ?>
             
-            <!-- Если товаров меньше 6, показываем заглушки -->
             <?php for ($i = count($newProducts); $i < 6; $i++): ?>
                 <div class="product-card placeholder">
                     <div class="product-image">
@@ -140,13 +133,12 @@ include 'templates/header.php';
                 </div>
             <?php endfor; ?>
         </div>
-        
-        <!-- Кнопка к каталогу -->
+
         <div class="catalog-button-section">
             <a href="catalog.php" class="btn-catalog-large">Перейти в каталог</a>
         </div>
         
     </div>
-</div>
+
 
 <?php include 'templates/footer.php'; ?>

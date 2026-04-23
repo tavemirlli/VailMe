@@ -18,9 +18,9 @@ $isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle ?? 'VailMe - интернет-магазин'; ?></title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/categories.css">
+    <link rel="stylesheet" href="assets/css/style.css">    
     <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="assets/css/categories.css">
     <link rel="stylesheet" href="assets/css/catalog.css">
     <link rel="stylesheet" href="assets/css/header-icons.css">
 </head>

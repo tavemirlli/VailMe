@@ -9,7 +9,6 @@ class Order extends BaseModel {
     public static function create($userId, $name, $phone, $email, $cartItems, $total) {
     $db = Database::getInstance();
     
-    // Проверяем наличие товаров на складе перед созданием заказа
     foreach ($cartItems as $item) {
         if (isset($item['variant_id']) && $item['variant_id']) {
             $sql = "SELECT quantity FROM product_variants WHERE id = {$item['variant_id']}";
@@ -48,7 +47,6 @@ class Order extends BaseModel {
         $db->query($sql);
     }
     
-    // Списываем товары со склада
     self::decreaseStock($orderId);
     
     return self::getById($orderId);
@@ -82,11 +80,9 @@ class Order extends BaseModel {
     $orderId = (int)$orderId;
     $status = $db->escape($status);
     
-    // Получаем текущий статус заказа
     $currentOrder = self::getById($orderId);
     $currentStatus = $currentOrder['order_status'];
     
-    // Если статус меняется на "отменён" и ранее не был отменён - возвращаем товары
     if ($status == 'cancelled' && $currentStatus != 'cancelled') {
         self::restoreStock($orderId);
     }

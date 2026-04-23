@@ -14,7 +14,6 @@ include 'templates/header.php';
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/categories.css">
 
-<div class="container">
     <div class="main-content">
         
         <h1>Категории</h1>
@@ -43,11 +42,15 @@ include 'templates/header.php';
             <?php endif; ?>
         </div>
 
-        <div class="frame-104">
-            <div class="frame-label">Frame 104</div>
+        <div class="promo-banner-middle">
+            <div class="promo-content-middle">
+                <h3>Новинки</h3>
+                <p>Скидки до 50% на всю коллекцию</p>
+                <a href="new-arrivals.php" class="btn-promo-middle">Успей купить</a>
+            </div>
         </div>
 
     </div>
-</div>
+
 
 <?php include 'templates/footer.php'; ?>

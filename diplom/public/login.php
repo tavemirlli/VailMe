@@ -26,8 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_email'] = $user->getEmail();
         $_SESSION['user_phone'] = $user->getPhone();
         $_SESSION['is_admin'] = $user->isAdmin();
-        
-        // Синхронизируем корзину
+
         Cart::syncCartForUser($user->getId());
         
         header('Location: index.php');
@@ -40,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 include 'templates/header.php';
 ?>
 <link rel="stylesheet" href="assets/css/auth.css">
-<div class="container">
+<link rel="stylesheet" href="assets/css/style.css">
+
     <div class="auth-form">
         <h1>Вход</h1>
         
@@ -65,4 +65,3 @@ include 'templates/header.php';
         <p class="auth-link">Нет аккаунта? <a href="register.php">Зарегистрироваться</a></p>
     </div>
 </div>
-<?php include 'templates/footer.php'; ?>

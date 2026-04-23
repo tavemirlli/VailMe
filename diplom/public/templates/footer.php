@@ -7,6 +7,9 @@
             <div class="privacy-link">
                 <a href="privacy-policy.php">Политика конфиденциальности</a>
             </div>
+            <div class="privacy-link">
+                <a href="data-processing.php">Обработка персональных данных</a>
+            </div>
         </div>
     </div>
 </div> 

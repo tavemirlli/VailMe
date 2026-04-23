@@ -68,20 +68,15 @@ class Product extends BaseModel {
     return $this->images ?? [];
 }
     
-    // ДОБАВЛЯЕМ ЭТОТ МЕТОД
     public function getMainImage() {
-    // Получаем все изображения товара
     $images = $this->getImages();
     
-    // Если изображения есть
     if (!empty($images)) {
-        // Ищем главное изображение (is_main = 1)
         foreach ($images as $image) {
             if (isset($image->is_main) && $image->is_main == 1) {
                 return $image;
             }
         }
-        // Если главного нет, возвращаем первое
         return $images[0];
     }
     

@@ -1,12 +1,10 @@
-/* Страница новинок */
 
-/* Рекламный баннер */
 .promo-banner {
     background: linear-gradient(135deg, #F0B1D3 0%, #e091b8 100%);
     color: white;
     text-align: center;
     padding: 50px 20px;
-    border-radius: 20px;
+
     margin-bottom: 50px;
 }
 
@@ -38,7 +36,6 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* Строка товаров - 3 в ряд */
 .products-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -46,7 +43,6 @@
     margin-bottom: 30px;
 }
 
-/* Обычные карточки товаров */
 .product-card {
     background: white;
     border-radius: 12px;
@@ -105,7 +101,7 @@
     top: 10px;
     left: 10px;
     padding: 4px 10px;
-    border-radius: 20px;
+
     font-size: 12px;
     font-weight: bold;
 }
@@ -181,7 +177,7 @@
     color: white;
     text-align: center;
     padding: 40px 20px;
-    border-radius: 20px;
+
     margin: 40px 0;
 }
 
@@ -242,56 +238,9 @@
     text-align: center;
     padding: 60px;
     background: #f9f9f9;
-    border-radius: 12px;
+
     color: #999;
     grid-column: 1 / -1;
 }
 
 /* Адаптивность */
-@media (max-width: 1024px) {
-    .products-row {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .promo-content h3,
-    .promo-content-middle h3 {
-        font-size: 28px;
-    }
-}
-
-@media (max-width: 768px) {
-    .products-row {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .promo-content h3,
-    .promo-content-middle h3 {
-        font-size: 24px;
-    }
-    
-    .promo-content p,
-    .promo-content-middle p {
-        font-size: 14px;
-    }
-    
-    .btn-catalog-large {
-        padding: 12px 35px;
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 550px) {
-    .products-row {
-        grid-template-columns: 1fr;
-    }
-    
-    .promo-banner,
-    .promo-banner-middle {
-        padding: 30px 15px;
-    }
-    
-    .promo-content h3,
-    .promo-content-middle h3 {
-        font-size: 20px;
-    }
-}

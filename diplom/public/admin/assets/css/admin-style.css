@@ -503,3 +503,56 @@ table tbody tr:hover {
 .btn-edit:hover {
     background: #1976D2;
 }
+
+/* Адаптивность для административной панели */
+@media (max-width: 768px) {
+    .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .dashboard-sections {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Таблицы */
+    .orders-table,
+    .products-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    /* Формы админки */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 14px;
+    }
+    
+    /* Кнопки в таблицах */
+    .btn-edit, .btn-delete {
+        display: inline-block;
+        margin: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card {
+        padding: 12px;
+    }
+    
+    .stat-card .number {
+        font-size: 24px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 15px;
+    }
+}

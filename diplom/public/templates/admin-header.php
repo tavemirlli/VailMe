@@ -18,9 +18,11 @@ if ($basePath == '.' || $basePath == '\\') $basePath = '';
 </head>
 <body>
     <div class="container">
-        <!-- Навигация админки (оставляем внутри, так как она отличается) -->
         <div class="admin-nav">
-            <a href="index.php">Товары</a>
+            <div class="stat-box">
+
+            <a href="index.php">Главная</a>            
+            <a href="messages.php">Сообщения</a>
             <a href="categories.php">Категории</a>
-            <a href="create.php">+ Добавить товар</a>
+            <a href="create.php">Добавить товар</a>
         </div>

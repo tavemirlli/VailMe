@@ -21,7 +21,7 @@ $pageTitle = 'Детали заказа №' . $order['order_number'] . ' - Ад
 
 include '../templates/admin-header.php';
 ?>
-
+<link rel="stylesheet" href="assets/css/order.css">
 <h1>Детали заказа №<?php echo $order['order_number']; ?></h1>
 
 <div class="order-info">
@@ -104,55 +104,5 @@ include '../templates/admin-header.php';
     </form>
 </div>
 
-<style>
-.order-info, .customer-info, .items-list {
-    margin-bottom: 30px;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 12px;
-}
-.items-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.items-table th, .items-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-.items-table th {
-    background: #f0f0f0;
-    font-weight: 600;
-}
-.items-table tfoot td {
-    border-top: 2px solid #ddd;
-    padding-top: 15px;
-    font-weight: bold;
-}
-.empty-items {
-    text-align: center;
-    padding: 40px;
-    color: #999;
-}
-.actions {
-    margin-top: 30px;
-}
-.btn-back {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #666;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    margin-right: 10px;
-}
-.btn-resend {
-    padding: 10px 20px;
-    background: #F0B1D3;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-</style>
 
 <?php include '../templates/admin-footer.php'; ?>

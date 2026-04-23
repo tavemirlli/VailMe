@@ -92,7 +92,6 @@ class User extends BaseModel {
         return ['success' => false, 'message' => 'Ошибка при изменении пароля'];
     }
     
-    // Сохранение корзины пользователя в БД
     public function saveCart() {
         if (!isset($this->data['id'])) return false;
         
@@ -104,7 +103,6 @@ class User extends BaseModel {
         return $db->query($sql);
     }
     
-    // Загрузка корзины пользователя из БД
     public function loadCart() {
         if (!isset($this->data['id']) || empty($this->data['cart_data'])) return [];
         
@@ -115,12 +113,10 @@ class User extends BaseModel {
         return [];
     }
     
-    // Синхронизация корзины при входе
     public function syncCart() {
         $savedCart = $this->loadCart();
         $currentCart = $_SESSION['cart'] ?? [];
         
-        // Объединяем корзины (сохраняем текущую + добавляем сохраненную)
         foreach ($savedCart as $key => $item) {
             if (isset($currentCart[$key])) {
                 $currentCart[$key]['quantity'] += $item['quantity'];

@@ -42,7 +42,6 @@ class HomePage {
     
     public function getWomenProducts($limit = 4) {
     try {
-        // Женские товары - подкатегория ID = 1
         $sql = "SELECT * FROM products ORDER BY id DESC LIMIT " . (int)$limit;
             $result = $this->db->query($sql);
             $rows = $this->db->fetchAll($result);

@@ -23,20 +23,17 @@ if (!$product) {
 
 $pageTitle = $product->getName() . ' - VailMe';
 
-// ПОЛУЧАЕМ ФОТО ТОВАРА
 $images = $product->getImages();
 if ($images === null || !is_array($images)) {
     $images = [];
 }
 $mainImage = $product->getMainImage();
 
-// ПОЛУЧАЕМ ВАРИАНТЫ ТОВАРА ИЗ БД
 $variants = $product->getVariants();
 if ($variants === null || !is_array($variants)) {
     $variants = [];
 }
 
-// СОБИРАЕМ УНИКАЛЬНЫЕ ЦВЕТА И РАЗМЕРЫ ИЗ ВАРИАНТОВ
 $colors = [];
 $sizes = [];
 $variantMap = [];
@@ -62,7 +59,6 @@ foreach ($variants as $variant) {
     ];
 }
 
-// Если есть варианты, но нет цветов/размеров, создаем стандартные
 if (!empty($variants) && empty($colors)) {
     $colors = ['Стандарт'];
 }
@@ -70,7 +66,6 @@ if (!empty($variants) && empty($sizes)) {
     $sizes = ['Стандарт'];
 }
 
-// Выбираем первый вариант для отображения по умолчанию
 $selectedColor = !empty($colors) ? $colors[0] : 'Стандарт';
 $selectedSize = !empty($sizes) ? $sizes[0] : 'Стандарт';
 $defaultKey = $selectedColor . '|' . $selectedSize;
@@ -127,8 +122,7 @@ include '../templates/header2.php';
                         <span class="discount-badge">-<?php echo $product->getDiscountPercent(); ?>%</span>
                     <?php endif; ?>
                 </div>
-                
-                <!-- ЦВЕТА ИЗ БД -->
+
                 <?php if (!empty($colors)): ?>
                 <div class="option-group">
                     <label>Цвет:</label>
@@ -142,8 +136,7 @@ include '../templates/header2.php';
                     </div>
                 </div>
                 <?php endif; ?>
-                
-                <!-- РАЗМЕРЫ ИЗ БД -->
+
                 <?php if (!empty($sizes)): ?>
                 <div class="option-group">
                     <label>Размер:</label>
@@ -157,8 +150,7 @@ include '../templates/header2.php';
                     </div>
                 </div>
                 <?php endif; ?>
-                
-                <!-- КОЛИЧЕСТВО -->
+
                 <div class="quantity-selector">
                     <label>Количество:</label>
                     <div class="quantity-wrapper">
@@ -212,8 +204,7 @@ include '../templates/header2.php';
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        
-        // ДАННЫЕ ИЗ БД - ВАРИАНТЫ ТОВАРА
+
         const variantsMap = <?php 
             $map = [];
             foreach ($variants as $variant) {
@@ -300,8 +291,7 @@ include '../templates/header2.php';
                 }
             }
         }
-        
-        // ФУНКЦИЯ ДОБАВЛЕНИЯ В КОРЗИНУ С ВЫБРАННЫМИ ЦВЕТОМ И РАЗМЕРОМ
+
         window.addToCart = function(productId) {
             const quantity = currentQuantity;
             const color = encodeURIComponent(selectedColor);

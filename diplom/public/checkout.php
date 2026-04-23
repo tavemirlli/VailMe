@@ -7,7 +7,6 @@ require_once 'classes/User.php';
 
 $pageTitle = 'Оформление заказа - VailMe';
 
-// Получаем корзину
 $cart = Cart::getCurrentCart();
 $items = $cart->getItems();
 $total = $cart->getTotal();
@@ -17,7 +16,6 @@ if (empty($items)) {
     exit;
 }
 
-// Проверяем, авторизован ли пользователь
 $isLoggedIn = isset($_SESSION['user_id']);
 $userData = [];
 
@@ -37,6 +35,7 @@ unset($_SESSION['checkout_error']);
 include 'templates/header.php';
 ?>
 <link rel="stylesheet" href="assets/css/checkout.css">
+<link rel="stylesheet" href="assets/css/style.css">
 <div class="container">
     <div class="checkout-container">
         <h1>Оформление заказа</h1>

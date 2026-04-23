@@ -63,7 +63,7 @@ include 'templates/header.php';
 <link rel="stylesheet" href="assets/css/categories.css">
 <link rel="stylesheet" href="assets/css/catalog.css">
 
-<div class="container">
+
     <div class="main-content">
         
         <h1>
@@ -125,7 +125,8 @@ include 'templates/header.php';
                         <?php foreach ($products as $product): 
                             $mainImage = $product->getMainImage();
                         ?>
-                            <div class="product-card">
+                            <a href="products/index.php?id=<?php echo $product->getId(); ?>">
+                                <div class="product-card">
                                 <div class="product-image">
                                     <?php if ($mainImage): ?>
                                         <img src="<?php echo htmlspecialchars($mainImage->image_url); ?>" 
@@ -142,9 +143,9 @@ include 'templates/header.php';
                                 </div>
                                 <div class="product-info">
                                     <h3 class="product-title">
-                                        <a href="products/index.php?id=<?php echo $product->getId(); ?>">
+                                        
                                             <?php echo htmlspecialchars($product->getName()); ?>
-                                        </a>
+                                        
                                     </h3>
                                     <div class="product-price">
                                         <?php if ($product->isOnSale()): ?>
@@ -154,9 +155,8 @@ include 'templates/header.php';
                                             <span class="current-price"><?php echo number_format($product->getPrice(), 0, '.', ' '); ?> ₽</span>
                                         <?php endif; ?>
                                     </div>
-                                   
                                 </div>
-                            </div>
+                            </div></a>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>

@@ -4,7 +4,7 @@ require_once 'BaseModel.php';
 class Category extends BaseModel {
     protected $table = 'categories';
     protected $primaryKey = 'id';
-    protected $fillable = ['name', 'image_url']; // Добавлено image_url
+    protected $fillable = ['name', 'image_url'];
     
     private $subcategories = null;
     

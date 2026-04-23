@@ -3,10 +3,7 @@ session_start();
 require_once 'config/db.php';
 require_once 'classes/Cart.php';
 require_once 'classes/Order.php';
-
-// Отключаем вывод ошибок для предотвращения проблем с заголовками
-error_reporting(0);
-ini_set('display_errors', 0);
+require_once 'classes/Promocode.php';
 
 // Проверяем, есть ли товары в корзине
 $cart = Cart::getCurrentCart();
@@ -36,9 +33,25 @@ $userId = $_SESSION['user_id'] ?? null;
 $order = Order::create($userId, $name, $phone, $email, $items, $total);
 
 if ($order) {
-    // Отправляем счет на email (временно отключено)
-    // Order::sendInvoiceEmail($order);
-    // Order::markInvoiceSent($order['id']);
+    $orderId = $order['id'];
+    
+    // Применяем промокод, если он был использован
+    if (isset($_SESSION['promocode_id'])) {
+        $promocode = Promocode::findById($_SESSION['promocode_id']);
+        if ($promocode) {
+            $result = $promocode->applyToOrder($orderId, $total);
+            if ($result['success']) {
+                // Промокод применен и деактивирован
+                unset($_SESSION['promocode_id']);
+                unset($_SESSION['applied_promocode']);
+                unset($_SESSION['promocode_discount']);
+            }
+        }
+    }
+    
+    // Отправляем счет на email
+    //Order::sendInvoiceEmail($order);
+    //Order::markInvoiceSent($orderId);
     
     // Очищаем корзину
     $cart->clear();

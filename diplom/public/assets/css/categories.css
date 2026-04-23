@@ -19,7 +19,7 @@
     align-items: center;
     padding: 25px;
     border: 1px solid #eee;
-    border-radius: 16px;
+    
     transition: all 0.3s;
     background: white;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -76,29 +76,77 @@
 }
 
 /* Frame 104 */
-.frame-104 {
-    width: 100%;
-    height: 400px;
-    margin: 60px 0 40px;
-    border: 2px solid #ddd;
+.promo-banner-middle {
+    background: #F0B1D3;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    margin: 40px 0;
+}
+
+.promo-content-middle h3 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.promo-content-middle p {
+    font-size: 18px;
+    margin-bottom: 25px;
+    opacity: 0.9;
+}
+
+.btn-promo-middle {
+    display: inline-block;
+    padding: 12px 35px;
+    background: white;
+    color: #ff6b6b;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-promo-middle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Кнопка к каталогу */
+.catalog-button-section {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.btn-catalog-large {
+    display: inline-block;
+    padding: 15px 50px;
+    background: #F0B1D3;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-catalog-large:hover {
+    background: #e091b8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px;
+    background: #f9f9f9;
     border-radius: 12px;
-    background: #fafafa;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     color: #999;
+    grid-column: 1 / -1;
 }
 
-.frame-label {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
 
-.frame-size {
-    font-size: 16px;
-    color: #ccc;
-}
 
 /* Адаптивность для категорий */
 @media (max-width: 1024px) {

@@ -53,7 +53,7 @@ $orders = Order::getAllOrders();
 
 include '../templates/admin-header.php';
 ?>
-<link rel="stylesheet" href="assets/css/admin-orders.css">
+<link rel="stylesheet" href="assets/css/order.css">
 <h1>Управление заказами</h1>
 
 <?php if (isset($success)): ?>
@@ -137,43 +137,5 @@ function confirmStatusChange(orderId, newStatus) {
     }
 }
 </script>
-
-<style>
-.orders-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.orders-table th,
-.orders-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-}
-.orders-table th {
-    background: #f5f5f5;
-}
-.btn-resend {
-    padding: 5px 10px;
-    background: #F0B1D3;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.btn-view {
-    display: inline-block;
-    padding: 5px 10px;
-    background: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-}
-.success-message {
-    background: #e8f5e9;
-    color: #4caf50;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-</style>
 
 <?php include '../templates/admin-footer.php'; ?>

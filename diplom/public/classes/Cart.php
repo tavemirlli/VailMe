@@ -250,7 +250,6 @@ class Cart extends BaseModel {
             $sql = "DELETE FROM carts WHERE id = {$sessionCart['id']}";
             $db->query($sql);
         } elseif ($sessionCart && !$userCart) {
-            // Привязываем корзину сессии к пользователю
             $sql = "UPDATE carts SET user_id = $userId WHERE id = {$sessionCart['id']}";
             $db->query($sql);
         }
@@ -260,24 +259,20 @@ class Cart extends BaseModel {
         $db = Database::getInstance();
         $userId = (int)$userId;
         
-        // Ищем корзину пользователя
         $sql = "SELECT id FROM carts WHERE user_id = $userId";
         $result = $db->query($sql);
         $cart = $db->fetchOne($result);
-        
+        //!!!!!
         if ($cart) {
-            // Очищаем старые товары
             $sql = "DELETE FROM cart_items WHERE cart_id = {$cart['id']}";
             $db->query($sql);
             $cartId = $cart['id'];
         } else {
-            // Создаем новую корзину
             $sql = "INSERT INTO carts (session_id, user_id) VALUES ('', $userId)";
             $db->query($sql);
             $cartId = $db->lastInsertId();
         }
         
-        // Добавляем товары
         foreach ($cartData as $item) {
             $variantId = isset($item['variant_id']) && $item['variant_id'] ? $item['variant_id'] : 'NULL';
             $sql = "INSERT INTO cart_items (cart_id, product_id, variant_id, quantity, price) 

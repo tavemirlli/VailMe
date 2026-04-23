@@ -3,6 +3,7 @@ session_start();
 require_once 'config/db.php';
 require_once 'classes/User.php';
 require_once 'classes/Order.php';
+require_once 'classes/Promocode.php';
 
 $pageTitle = 'Профиль - VailMe';
 
@@ -48,11 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Получаем промокод пользователя
+$userPromocode = Promocode::getUserPromocode($_SESSION['user_id']);
+
 include 'templates/header.php';
 ?>
 <link rel="stylesheet" href="assets/css/profile.css">
 <link rel="stylesheet" href="assets/css/style.css">
-<div class="container">
+
     <div class="profile-container">
         <div class="profile-sidebar">
             <div class="profile-avatar">
@@ -71,6 +75,9 @@ include 'templates/header.php';
                 <button class="tab-btn active" data-tab="orders">Мои заказы</button>
                 <button class="tab-btn" data-tab="settings">Настройки профиля</button>
                 <button class="tab-btn" data-tab="security">Безопасность</button>
+                <?php if ($userPromocode): ?>
+                <button class="tab-btn" data-tab="promocode">Мой промокод</button>
+                <?php endif; ?>
             </div>
             
             <div class="tab-content active" id="tab-orders">
@@ -153,9 +160,60 @@ include 'templates/header.php';
                     <button type="submit" name="change_password" class="btn-save">Изменить пароль</button>
                 </form>
             </div>
+            
+            <?php if ($userPromocode): ?>
+            <div class="tab-content" id="tab-promocode">
+                <h2>Ваш промокод</h2>
+                <div class="promocode-card">
+                    <div class="promocode-code"><?php echo $userPromocode->code; ?></div>
+                    <p><strong>Скидка:</strong> 
+                        <?php echo $userPromocode->discount_type == 'percent' ? $userPromocode->discount_value . '%' : number_format($userPromocode->discount_value, 0, '.', ' ') . ' ₽'; ?>
+                    </p>
+                    <p><strong>Действует до:</strong> <?php echo date('d.m.Y', strtotime($userPromocode->expires_at)); ?></p>
+                    <p class="promocode-hint">Скопируйте промокод и используйте его при оформлении заказа!</p>
+                    <button class="copy-promocode-btn" onclick="copyPromocode('<?php echo $userPromocode->code; ?>')">📋 Скопировать промокод</button>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
-</div>
+
+
+<style>
+.promocode-card {
+    background: linear-gradient(135deg, #F0B1D3 0%, #e091b8 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+.promocode-code {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    background: rgba(255,255,255,0.2);
+    padding: 15px;
+    border-radius: 12px;
+    margin: 20px 0;
+    font-family: monospace;
+}
+.promocode-hint {
+    margin: 15px 0;
+    font-size: 12px;
+    opacity: 0.8;
+}
+.copy-promocode-btn {
+    padding: 10px 20px;
+    background: white;
+    color: #F0B1D3;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+}
+</style>
 
 <script>
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -167,6 +225,12 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         document.getElementById('tab-' + tabId).classList.add('active');
     });
 });
+
+function copyPromocode(code) {
+    navigator.clipboard.writeText(code).then(() => {
+        alert('Промокод скопирован: ' + code);
+    });
+}
 </script>
 
 <?php include 'templates/footer.php'; ?>

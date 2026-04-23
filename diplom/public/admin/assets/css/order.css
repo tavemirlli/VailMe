@@ -1,0 +1,83 @@
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.orders-table th,
+.orders-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+.orders-table th {
+    background: #7c0000ff;
+}
+.btn-resend {
+    padding: 5px 10px;
+    background: #F0B1D3;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-view {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.success-message {
+    background: #e8f5e9;
+    color: #4caf50;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.order-info, .customer-info, .items-list {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+}
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.items-table th, .items-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.items-table th {
+    background: #f0f0f0;
+    font-weight: 600;
+}
+.items-table tfoot td {
+    border-top: 2px solid #ddd;
+    padding-top: 15px;
+    font-weight: bold;
+}
+.empty-items {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+.actions {
+    margin-top: 30px;
+}
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #666;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+.btn-resend {
+    padding: 10px 20px;
+    background: #F0B1D3;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
