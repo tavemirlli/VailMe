@@ -19,24 +19,22 @@ unset($_SESSION['contact_success'], $_SESSION['contact_errors']);
             <div class="contact-card">
                 <div class="contact-icon">📞</div>
                 <h3>Телефон</h3>
-                <p>8 988 888-88-88</p>
-                <p>8 999 999-99-99</p>
+                <p>8 988 517-84-20</p>
+                <p>8 928 184-41-17</p>
                 <small>Ежедневно с 9:00 до 21:00</small>
             </div>
 
             <div class="contact-card">
                 <div class="contact-icon">✉️</div>
                 <h3>Email</h3>
-                <p>info@vailme.ru</p>
-                <p>support@vailme.ru</p>
+                <p>vailme@mail.ru</p>
                 <small>Ответ в течение 24 часов</small>
             </div>
 
             <div class="contact-card">
                 <div class="contact-icon">📍</div>
                 <h3>Адрес</h3>
-                <p>г. Москва, ул. Тверская, д. 15</p>
-                <p>м. Маяковская</p>
+                <p>г. Каменск-Шахтинский проспект Карла Маркса, д15</p>
                 <small>Пн-Пт: 10:00 - 19:00</small>
             </div>
         </div>
@@ -48,22 +46,22 @@ unset($_SESSION['contact_success'], $_SESSION['contact_errors']);
                 <a href="#" class="social-card">
                     <div class="social-icon telegram">📱</div>
                     <span>Telegram</span>
-                    <small>@vailme_shop</small>
+                    <small>@VaILme1</small>
                 </a>
-                <a href="#" class="social-card">
+                <a href="https://wa.me/79885178420" class="social-card">
                     <div class="social-icon whatsapp">💬</div>
                     <span>WhatsApp</span>
-                    <small>+7 988 888-88-88</small>
+                    <small>+7 988 517-84-20</small>
                 </a>
-                <a href="#" class="social-card">
+                <a href="https://t.me/mgvailme" class="social-card">
                     <div class="social-icon instagram">📷</div>
                     <span>Instagram</span>
-                    <small>@vailme_official</small>
+                    <small>va1lme</small>
                 </a>
-                <a href="#" class="social-card">
+                <a href="https://vk.com/vailme" class="social-card">
                     <div class="social-icon vk">🌐</div>
                     <span>VKontakte</span>
-                    <small>vk.com/vailme</small>
+                    <small>VailMe</small>
                 </a>
             </div>
         </div>
@@ -97,17 +95,9 @@ unset($_SESSION['contact_success'], $_SESSION['contact_errors']);
 
         <div class="map-section">
             <h2>Как нас найти</h2>
-            <div class="map-container">
-                <iframe 
-                    src="https://yandex.ru/map-widget/v1/?um=constructor%3A1a2b3c4d5e6f7g8h9i0j&source=constructor" 
-                    width="100%" 
-                    height="400" 
-                    frameborder="0"
-                    allowfullscreen>
-                </iframe>
-            </div>
+            <div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/11043/kamensk-shakhtinsky/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Каменск‑Шахтинский</a><a href="https://yandex.ru/maps/11043/kamensk-shakhtinsky/house/prospekt_karla_marksa_15/YEkYdABjTUEGQFpifX9ycX5gbA==/?ll=40.239707%2C48.333077&utm_medium=mapframe&utm_source=maps&z=12.03" style="color:#eee;font-size:12px;position:absolute;top:14px;">Проспект Карла Маркса, 15 — Яндекс Карты</a><iframe src="https://yandex.ru/map-widget/v1/?ll=40.239707%2C48.333077&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgoxNTM0Mjc0NTExEoQB0KDQvtGB0YHQuNGPLCDQoNC-0YHRgtC-0LLRgdC60LDRjyDQvtCx0LvQsNGB0YLRjCwg0JrQsNC80LXQvdGB0Lot0KjQsNGF0YLQuNC90YHQutC40LksINC_0YDQvtGB0L_QtdC60YIg0JrQsNGA0LvQsCDQnNCw0YDQutGB0LAsIDE1IgoNARghQhUqUkFC&z=12.03" width="1260" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
         </div>
     </div>
-</div>
+</div><div
 
 <?php include 'templates/footer.php'; ?>

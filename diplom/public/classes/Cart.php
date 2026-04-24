@@ -79,53 +79,67 @@ class Cart extends BaseModel {
         }
         return $this->items ?? [];
     }
-    
     public function addItem($productId, $quantity = 1, $color = '', $size = '') {
-        $db = Database::getInstance();
-        $productId = (int)$productId;
-        $quantity = (int)$quantity;
-        
-        $sql = "SELECT p.*, pv.id as variant_id, pv.quantity as variant_quantity, pv.price as variant_price
-                FROM products p
-                LEFT JOIN product_variants pv ON p.id = pv.product_id AND pv.color = '$color' AND pv.size = '$size'
-                WHERE p.id = $productId";
-        $result = $db->query($sql);
-        $product = $db->fetchOne($result);
-        
-        if (!$product) {
-            return false;
-        }
-        
-        $finalPrice = $product['variant_price'] ?? $product['price'];
-        $maxQty = $product['variant_quantity'] ?? 99;
-        $variantId = $product['variant_id'] ?? 0;
-        
-        $checkSql = "SELECT id, quantity FROM cart_items 
-                     WHERE cart_id = {$this->data['id']} 
-                     AND product_id = $productId 
-                     AND " . ($variantId ? "variant_id = $variantId" : "variant_id IS NULL");
-        $checkResult = $db->query($checkSql);
-        $existing = $db->fetchOne($checkResult);
-        
-        if ($existing) {
-            $newQty = $existing['quantity'] + $quantity;
-            if ($newQty > $maxQty) {
-                $newQty = $maxQty;
-            }
-            $updateSql = "UPDATE cart_items SET quantity = $newQty WHERE id = {$existing['id']}";
-            $db->query($updateSql);
-        } else {
-            $variantIdSql = $variantId ? $variantId : 'NULL';
-            $insertSql = "INSERT INTO cart_items (cart_id, product_id, variant_id, quantity, price) 
-                          VALUES ({$this->data['id']}, $productId, $variantIdSql, $quantity, $finalPrice)";
-            $db->query($insertSql);
-        }
-        
-        // Сохраняем корзину в БД
-        $this->saveCartToDatabase();
-        
-        return true;
+    $db = Database::getInstance();
+    $productId = (int)$productId;
+    $quantity = (int)$quantity;
+    
+    // Получаем информацию о товаре и варианте
+    $sql = "SELECT p.*, pv.id as variant_id, pv.quantity as variant_quantity, pv.price as variant_price
+            FROM products p
+            LEFT JOIN product_variants pv ON p.id = pv.product_id AND pv.color = '$color' AND pv.size = '$size'
+            WHERE p.id = $productId";
+    $result = $db->query($sql);
+    $product = $db->fetchOne($result);
+    
+    if (!$product) {
+        return false;
     }
+    
+    $finalPrice = $product['variant_price'] ?? $product['price'];
+    $maxQty = $product['variant_quantity'] ?? 99;
+    $variantId = $product['variant_id'] ?? 0;
+    
+    // ПРОВЕРКА: есть ли товар в наличии
+    if ($maxQty <= 0) {
+        $_SESSION['cart_error'] = "Товара '{$product['name']}' нет в наличии";
+        return false;
+    }
+    
+    // Ограничиваем количество максимальным
+    if ($quantity > $maxQty) {
+        $quantity = $maxQty;
+        $_SESSION['cart_warning'] = "Доступно только {$maxQty} шт. товара '{$product['name']}'";
+    }
+    
+    // Проверяем, есть ли уже такой товар в корзине
+    $checkSql = "SELECT id, quantity FROM cart_items 
+                 WHERE cart_id = {$this->data['id']} 
+                 AND product_id = $productId 
+                 AND " . ($variantId ? "variant_id = $variantId" : "variant_id IS NULL");
+    $checkResult = $db->query($checkSql);
+    $existing = $db->fetchOne($checkResult);
+    
+    if ($existing) {
+        $newQty = $existing['quantity'] + $quantity;
+        if ($newQty > $maxQty) {
+            $newQty = $maxQty;
+            $_SESSION['cart_warning'] = "Всего доступно {$maxQty} шт. товара '{$product['name']}'";
+        }
+        $updateSql = "UPDATE cart_items SET quantity = $newQty WHERE id = {$existing['id']}";
+        $db->query($updateSql);
+    } else {
+        $variantIdSql = $variantId ? $variantId : 'NULL';
+        $insertSql = "INSERT INTO cart_items (cart_id, product_id, variant_id, quantity, price) 
+                      VALUES ({$this->data['id']}, $productId, $variantIdSql, $quantity, $finalPrice)";
+        $db->query($insertSql);
+    }
+    
+    $this->saveCartToDatabase();
+    
+    return true;
+}
+    
     
     public function removeItem($itemId) {
         $db = Database::getInstance();

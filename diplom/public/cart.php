@@ -9,6 +9,27 @@ $pageTitle = 'Корзина - VailMe';
 
 $cart = Cart::getCurrentCart();
 
+if (isset($_GET['increase'])) {
+    $itemId = (int)$_GET['increase'];
+    
+    // Получаем текущий товар и его максимальное количество
+    $checkSql = "SELECT ci.*, pv.quantity as max_qty 
+                 FROM cart_items ci
+                 LEFT JOIN product_variants pv ON ci.variant_id = pv.id
+                 WHERE ci.id = $itemId";
+    $checkResult = mysqli_query($connect, $checkSql);
+    $item = mysqli_fetch_assoc($checkResult);
+    
+    if ($item && $item['quantity'] >= $item['max_qty']) {
+        $_SESSION['cart_warning'] = 'Достигнуто максимальное количество товара';
+        header('Location: cart.php');
+        exit;
+    }
+    
+    $cart->increaseQuantity($itemId);
+    header('Location: cart.php');
+    exit;
+}
 // Обработка действий
 if (isset($_GET['add'])) {
     $id = (int)$_GET['add'];

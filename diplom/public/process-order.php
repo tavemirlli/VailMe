@@ -50,8 +50,8 @@ if ($order) {
     }
     
     // Отправляем счет на email
-    //Order::sendInvoiceEmail($order);
-    //Order::markInvoiceSent($orderId);
+    Order::sendInvoiceEmail($order);
+    Order::markInvoiceSent($orderId);
     
     // Очищаем корзину
     $cart->clear();

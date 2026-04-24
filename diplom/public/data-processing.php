@@ -66,8 +66,8 @@ include 'templates/header.php';
             <h2>7. Контактная информация</h2>
             <p>По всем вопросам, связанным с обработкой персональных данных, Вы можете обратиться:</p>
             <ul>
-                <li>По электронной почте: <strong>privacy@vailme.ru</strong></li>
-                <li>По телефону: <strong>8 988 888-88-88</strong></li>
+                <li>По электронной почте: <strong>vailme@mail.ru</strong></li>
+                <li>По телефону: <strong>8 988 517-84-20</strong></li>
             </ul>
         </div>
 

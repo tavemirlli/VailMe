@@ -14,7 +14,7 @@ class HomePage {
             'title' => 'VailMe',
             'subtitle' => 'Откройте для себя новый стиль',
             'button_text' => 'Войти',
-            'button_link' => '/login.php',
+            'button_link' => 'login.php',
             'image_size' => '340 × 58'
         ];
     }
