@@ -1,6 +1,6 @@
 <?php
 require_once 'BaseModel.php';
-require_once 'Mailer.php';
+
 
 class Order extends BaseModel {
     protected $table = 'orders';
@@ -157,14 +157,5 @@ public static function restoreStock($orderId) {
     
     return true;
 }
-    
-    /**
- * Отправка счета на email через Mailer
- */
-public static function sendInvoiceEmail($order) {
-    require_once 'Mailer.php';
-    return Mailer::sendInvoice($order);
-}
-    
 }
 ?>
