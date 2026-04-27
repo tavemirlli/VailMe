@@ -123,3 +123,37 @@
         width: 100%;
     }
 }
+
+.promocode-card {
+    background: linear-gradient(135deg, #F0B1D3 0%, #e091b8 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+.promocode-code {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    background: rgba(255,255,255,0.2);
+    padding: 15px;
+    border-radius: 12px;
+    margin: 20px 0;
+    font-family: monospace;
+}
+.promocode-hint {
+    margin: 15px 0;
+    font-size: 12px;
+    opacity: 0.8;
+}
+.copy-promocode-btn {
+    padding: 10px 20px;
+    background: white;
+    color: #F0B1D3;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+}

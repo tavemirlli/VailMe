@@ -123,12 +123,10 @@ class Order extends BaseModel {
     
     foreach ($items as $item) {
         if ($item['variant_id'] && $item['variant_id'] != 'NULL') {
-            // Списываем с конкретного варианта (цвет/размер)
             $sql = "UPDATE product_variants SET quantity = quantity - {$item['quantity']} 
                     WHERE id = {$item['variant_id']} AND quantity >= {$item['quantity']}";
             $db->query($sql);
         } else {
-            // Списываем с общего остатка товара (если нет вариантов)
             $sql = "UPDATE products SET quantity = quantity - {$item['quantity']} 
                     WHERE id = {$item['product_id']} AND quantity >= {$item['quantity']}";
             $db->query($sql);
@@ -143,12 +141,10 @@ public static function restoreStock($orderId) {
     
     foreach ($items as $item) {
         if ($item['variant_id'] && $item['variant_id'] != 'NULL') {
-            // Возвращаем количество для конкретного варианта
             $sql = "UPDATE product_variants SET quantity = quantity + {$item['quantity']} 
                     WHERE id = {$item['variant_id']}";
             $db->query($sql);
         } else {
-            // Возвращаем количество для общего остатка товара
             $sql = "UPDATE products SET quantity = quantity + {$item['quantity']} 
                     WHERE id = {$item['product_id']}";
             $db->query($sql);

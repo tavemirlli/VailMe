@@ -72,7 +72,6 @@ $defaultKey = $selectedColor . '|' . $selectedSize;
 $displayPrice = isset($variantMap[$defaultKey]) ? $variantMap[$defaultKey]['price'] : ($product->getPrice() ?? 0);
 $stockQuantity = isset($variantMap[$defaultKey]) ? $variantMap[$defaultKey]['quantity'] : 0;
 
-// ПРОВЕРКА: есть ли вообще товар в наличии
 $hasStock = false;
 foreach ($variants as $variant) {
     if ($variant->quantity > 0) {
@@ -80,9 +79,19 @@ foreach ($variants as $variant) {
         break;
     }
 }
-// Если нет вариантов, проверяем общий остаток товара
-if (empty($variants) && $product->quantity > 0) {
+if (empty($variants) && isset($product->quantity) && $product->quantity > 0) {
     $hasStock = true;
+}
+
+$variantsArray = [];
+foreach ($variants as $variant) {
+    $variantsArray[] = [
+        'color' => $variant->color ?? '',
+        'size' => $variant->size ?? '',
+        'price' => $variant->price ?? 0,
+        'quantity' => $variant->quantity ?? 0,
+        'id' => $variant->id ?? 0
+    ];
 }
 
 include '../templates/header2.php';
@@ -90,6 +99,13 @@ include '../templates/header2.php';
 <link rel="stylesheet" href="../assets/css/product-page.css">
 <link rel="stylesheet" href="../assets/css/style.css">
 
+<script>
+    window.variantsData = <?php echo json_encode($variantsArray); ?>;
+    window.selectedColor = '<?php echo $selectedColor; ?>';
+    window.selectedSize = '<?php echo $selectedSize; ?>';
+    window.stockQuantity = <?php echo $stockQuantity > 0 ? $stockQuantity : 0; ?>;
+</script>
+<script src="../assets/js/product.js"></script>
 
     <div class="main-content">
         
@@ -113,10 +129,10 @@ include '../templates/header2.php';
                 <?php if (count($images) > 1): ?>
                 <div class="thumbnail-list">
                     <?php foreach ($images as $image): ?>
-                        <div class="thumbnail <?php echo ($image->is_main) ? 'active' : ''; ?>">
+                        <div class="thumbnail <?php echo ($image->is_main) ? 'active' : ''; ?>"
+                             onclick="changeImage('<?php echo htmlspecialchars($image->image_url); ?>', this)">
                             <img src="<?php echo htmlspecialchars($image->image_url); ?>" 
-                                 alt="<?php echo htmlspecialchars($product->getName()); ?>"
-                                 onclick="changeImage(this.src, this)">
+                                 alt="<?php echo htmlspecialchars($product->getName()); ?>">
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -214,201 +230,7 @@ include '../templates/header2.php';
         </div>
         <?php endif; ?>
         
-        
-        
     </div>
+</div>
 
-
-<script>
-    const variantsData = <?php 
-        $variantsArray = [];
-        foreach ($variants as $variant) {
-            $variantsArray[] = [
-                'color' => $variant->color ?? '',
-                'size' => $variant->size ?? '',
-                'price' => $variant->price ?? 0,
-                'quantity' => $variant->quantity ?? 0,
-                'id' => $variant->id ?? 0
-            ];
-        }
-        echo json_encode($variantsArray);
-    ?>;
-    
-    let selectedColor = '<?php echo $selectedColor; ?>';
-    let selectedSize = '<?php echo $selectedSize; ?>';
-    let currentQuantity = 1;
-    let maxQuantity = <?php echo $stockQuantity > 0 ? $stockQuantity : 0; ?>;
-    
-    let mainImage = document.getElementById('main-product-image');
-    if (!mainImage) {
-        mainImage = document.querySelector('.main-image img');
-    }
-    
-    function changeImage(imageUrl, element) {
-        if (mainImage) {
-            mainImage.src = imageUrl;
-        }
-        
-        const thumbnails = document.querySelectorAll('.thumbnail');
-        for (let i = 0; i < thumbnails.length; i++) {
-            thumbnails[i].classList.remove('active');
-        }
-        
-        if (element) {
-            element.classList.add('active');
-        }
-    }
-    
-    const thumbnails = document.querySelectorAll('.thumbnail');
-    for (let i = 0; i < thumbnails.length; i++) {
-        thumbnails[i].onclick = function(e) {
-            e.preventDefault();
-            const img = this.querySelector('img');
-            if (img) {
-                changeImage(img.src, this);
-            }
-        };
-    }
-    
-    function updateQuantity() {
-        const quantityValue = document.getElementById('quantity-value');
-        if (quantityValue) {
-            quantityValue.textContent = currentQuantity;
-        }
-    }
-    
-    function updatePriceAndStock() {
-        const key = selectedColor + '|' + selectedSize;
-        const variant = variantsData.find(v => (v.color === selectedColor || (selectedColor === 'Стандарт' && !v.color)) && 
-                                              (v.size === selectedSize || (selectedSize === 'Стандарт' && !v.size)));
-        
-        const priceElement = document.getElementById('product-price');
-        const stockInfo = document.getElementById('stock-info');
-        const addToCartBtn = document.querySelector('.btn-add-to-cart');
-        
-        if (variant) {
-            if (priceElement) {
-                priceElement.textContent = variant.price.toLocaleString() + ' ₽';
-            }
-            if (stockInfo) {
-                if (variant.quantity > 0) {
-                    stockInfo.textContent = 'В наличии: ' + variant.quantity + ' шт.';
-                    if (addToCartBtn) {
-                        addToCartBtn.disabled = false;
-                        addToCartBtn.style.background = '#F0B1D3';
-                        addToCartBtn.style.cursor = 'pointer';
-                        addToCartBtn.textContent = 'В корзину';
-                    }
-                } else {
-                    stockInfo.textContent = 'Нет в наличии';
-                    if (addToCartBtn) {
-                        addToCartBtn.disabled = true;
-                        addToCartBtn.style.background = '#ccc';
-                        addToCartBtn.style.cursor = 'not-allowed';
-                        addToCartBtn.textContent = 'Нет в наличии';
-                    }
-                }
-            }
-            maxQuantity = variant.quantity > 0 ? variant.quantity : 0;
-        } else {
-            if (stockInfo) {
-                stockInfo.textContent = 'Нет в наличии';
-            }
-            if (addToCartBtn) {
-                addToCartBtn.disabled = true;
-                addToCartBtn.style.background = '#ccc';
-                addToCartBtn.style.cursor = 'not-allowed';
-                addToCartBtn.textContent = 'Нет в наличии';
-            }
-            maxQuantity = 0;
-        }
-        
-        if (currentQuantity > maxQuantity && maxQuantity > 0) {
-            currentQuantity = maxQuantity;
-            updateQuantity();
-        } else if (maxQuantity === 0) {
-            currentQuantity = 0;
-            updateQuantity();
-        }
-    }
-    
-    function addToCart(productId) {
-        const addToCartBtn = document.querySelector('.btn-add-to-cart');
-        if (addToCartBtn && addToCartBtn.disabled) {
-            alert('Товар временно недоступен для заказа');
-            return;
-        }
-        
-        if (maxQuantity <= 0) {
-            alert('Товара нет в наличии');
-            return;
-        }
-        
-        const quantity = currentQuantity;
-        if (quantity <= 0) {
-            alert('Выберите количество');
-            return;
-        }
-        
-        const color = encodeURIComponent(selectedColor);
-        const size = encodeURIComponent(selectedSize);
-        window.location.href = '../cart.php?add=' + productId + '&quantity=' + quantity + '&color=' + color + '&size=' + size;
-    }
-    
-    const colorBtns = document.querySelectorAll('.color-btn');
-    for (let i = 0; i < colorBtns.length; i++) {
-        colorBtns[i].onclick = function() {
-            for (let j = 0; j < colorBtns.length; j++) {
-                colorBtns[j].classList.remove('active');
-            }
-            this.classList.add('active');
-            selectedColor = this.getAttribute('data-color');
-            updatePriceAndStock();
-        };
-    }
-    
-    const sizeBtns = document.querySelectorAll('.size-btn');
-    for (let i = 0; i < sizeBtns.length; i++) {
-        sizeBtns[i].onclick = function() {
-            for (let j = 0; j < sizeBtns.length; j++) {
-                sizeBtns[j].classList.remove('active');
-            }
-            this.classList.add('active');
-            selectedSize = this.getAttribute('data-size');
-            updatePriceAndStock();
-        };
-    }
-    
-    const minusBtn = document.querySelector('.minus');
-    const plusBtn = document.querySelector('.plus');
-    
-    if (minusBtn) {
-        minusBtn.onclick = function() {
-            if (currentQuantity > 1 && maxQuantity > 0) {
-                currentQuantity--;
-                updateQuantity();
-            }
-        };
-    }
-    
-    if (plusBtn) {
-        plusBtn.onclick = function() {
-            if (currentQuantity < maxQuantity && maxQuantity > 0) {
-                currentQuantity++;
-                updateQuantity();
-            }
-        };
-    }
-    
-    if (colorBtns.length > 0 && colorBtns[0]) {
-        colorBtns[0].classList.add('active');
-    }
-    if (sizeBtns.length > 0 && sizeBtns[0]) {
-        sizeBtns[0].classList.add('active');
-    }
-    
-    updatePriceAndStock();
-    updateQuantity();
-</script>
-
-<?php include '../templates/footer.php'; ?>
+<?php include '../templates/footer2.php'; ?>

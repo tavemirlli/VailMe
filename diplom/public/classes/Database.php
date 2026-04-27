@@ -2,9 +2,9 @@
 class Database {
     private static $instance = null;
     private $connection;
-    private $host = 'MySQL-8.0';
+    private $host = 'mysql';
     private $user = 'root';
-    private $pass = '';
+    private $pass = 'root123';
     private $name = 'vailme_store';
     
     private function __construct() {

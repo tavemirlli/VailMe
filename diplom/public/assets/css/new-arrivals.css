@@ -84,7 +84,6 @@
     color: #999;
 }
 
-/* Заглушка для отсутствующих товаров */
 .product-card.placeholder {
     opacity: 0.6;
     background: #f9f9f9;
@@ -93,8 +92,6 @@
 .product-card.placeholder .no-image {
     background: #e8e8e8;
 }
-
-/* Бейджи новинка и скидка */
 .badge-new,
 .badge-sale {
     position: absolute;
@@ -118,7 +115,6 @@
     right: 10px;
 }
 
-/* Информация о товаре */
 .product-info {
     padding: 15px;
 }
@@ -171,7 +167,6 @@
     color: white;
 }
 
-/* Рекламный баннер между строками */
 .promo-banner-middle {
     background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
     color: white;
@@ -209,7 +204,6 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* Кнопка к каталогу */
 .catalog-button-section {
     text-align: center;
     margin-top: 50px;
@@ -243,4 +237,3 @@
     grid-column: 1 / -1;
 }
 
-/* Адаптивность */

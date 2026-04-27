@@ -7,16 +7,12 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     header('Location: ../index.php');
     exit;
 }
-
-// Отметить как прочитанное
 if (isset($_GET['read'])) {
     $id = (int)$_GET['read'];
     Contact::markAsRead($id);
     header('Location: messages.php');
     exit;
 }
-
-// Удалить сообщение
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
     Contact::deleteMessage($id);

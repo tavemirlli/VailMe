@@ -14,20 +14,14 @@ $productId = (int)$_GET['product_id'];
 $image = ProductImage::findById($imageId);
 
 if ($image) {
-    // Получаем путь к файлу
     $filePath = $_SERVER['DOCUMENT_ROOT'] . $image->image_url;
     
-    // Удаляем файл с диска
     if (file_exists($filePath)) {
         unlink($filePath);
     }
-    
-    // Удаляем запись из БД
     $image->delete();
-    
-    // Проверяем, было ли удаленное изображение главным
+
     if ($image->is_main) {
-        // Находим другое изображение и делаем его главным
         $product = Product::findById($productId);
         $remainingImages = $product->getImages();
         

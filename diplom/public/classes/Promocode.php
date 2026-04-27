@@ -35,24 +35,20 @@ class Promocode extends BaseModel {
         }
         return null;
     }
-    
+// промокод    
     public function isValid($totalAmount = 0) {
-        // Проверка срока действия
         if ($this->expires_at && strtotime($this->expires_at) < time()) {
             return ['valid' => false, 'message' => 'Срок действия промокода истек'];
         }
         
-        // Проверка активности
         if (!$this->is_active) {
             return ['valid' => false, 'message' => 'Промокод неактивен'];
         }
         
-        // Проверка лимита использования
         if ($this->usage_limit && $this->used_count >= $this->usage_limit) {
             return ['valid' => false, 'message' => 'Промокод уже использован'];
         }
         
-        // Проверка минимальной суммы заказа
         if ($this->min_order_amount && $totalAmount < $this->min_order_amount) {
             return ['valid' => false, 'message' => 'Минимальная сумма заказа для этого промокода: ' . number_format($this->min_order_amount, 0, '.', ' ') . ' ₽'];
         }
@@ -73,7 +69,6 @@ class Promocode extends BaseModel {
     }
     
     public function applyToOrder($orderId, $totalAmount) {
-        // Проверяем, можно ли еще использовать промокод
         $validation = $this->isValid($totalAmount);
         if (!$validation['valid']) {
             return ['success' => false, 'message' => $validation['message']];
@@ -85,16 +80,13 @@ class Promocode extends BaseModel {
         
         $db = Database::getInstance();
         
-        // Применяем промокод к заказу
         $sql = "UPDATE orders SET promocode_id = {$this->id}, promocode_discount = $discount, original_total = $totalAmount, total_amount = $newTotal 
                 WHERE id = $orderId";
         $db->query($sql);
         
-        // Увеличиваем счетчик использования
         $this->used_count++;
         $this->save();
-        
-        // Если промокод одноразовый (usage_limit = 1), деактивируем его
+
         if ($this->usage_limit == 1 && $this->used_count >= $this->usage_limit) {
             $this->is_active = 0;
             $this->save();
@@ -114,7 +106,6 @@ class Promocode extends BaseModel {
     
     public static function getUserPromocode($userId) {
         $db = Database::getInstance();
-        // Ищем только активные промокоды, которые еще не использованы
         $sql = "SELECT * FROM promocodes 
                 WHERE user_id = $userId 
                 AND is_active = 1 

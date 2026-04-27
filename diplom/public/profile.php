@@ -49,13 +49,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Получаем промокод пользователя
 $userPromocode = Promocode::getUserPromocode($_SESSION['user_id']);
 
 include 'templates/header.php';
 ?>
 <link rel="stylesheet" href="assets/css/profile.css">
 <link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/profile.js"></script>
 
     <div class="profile-container">
         <div class="profile-sidebar">
@@ -171,66 +171,11 @@ include 'templates/header.php';
                     </p>
                     <p><strong>Действует до:</strong> <?php echo date('d.m.Y', strtotime($userPromocode->expires_at)); ?></p>
                     <p class="promocode-hint">Скопируйте промокод и используйте его при оформлении заказа!</p>
-                    <button class="copy-promocode-btn" onclick="copyPromocode('<?php echo $userPromocode->code; ?>')">📋 Скопировать промокод</button>
+                    <button class="copy-promocode-btn" onclick="copyPromocode('<?php echo $userPromocode->code; ?>')">Скопировать промокод</button>
                 </div>
             </div>
             <?php endif; ?>
         </div>
     </div>
-
-
-<style>
-.promocode-card {
-    background: linear-gradient(135deg, #F0B1D3 0%, #e091b8 100%);
-    color: white;
-    padding: 30px;
-    border-radius: 16px;
-    text-align: center;
-    margin-top: 20px;
-}
-.promocode-code {
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    background: rgba(255,255,255,0.2);
-    padding: 15px;
-    border-radius: 12px;
-    margin: 20px 0;
-    font-family: monospace;
-}
-.promocode-hint {
-    margin: 15px 0;
-    font-size: 12px;
-    opacity: 0.8;
-}
-.copy-promocode-btn {
-    padding: 10px 20px;
-    background: white;
-    color: #F0B1D3;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 15px;
-}
-</style>
-
-<script>
-document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const tabId = this.dataset.tab;
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        document.getElementById('tab-' + tabId).classList.add('active');
-    });
-});
-
-function copyPromocode(code) {
-    navigator.clipboard.writeText(code).then(() => {
-        alert('Промокод скопирован: ' + code);
-    });
-}
-</script>
-
+</div>
 <?php include 'templates/footer.php'; ?>

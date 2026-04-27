@@ -4,33 +4,12 @@ require_once 'config/db.php';
 require_once 'classes/Cart.php';
 require_once 'classes/Product.php';
 require_once 'classes/Promocode.php';
+require_once 'classes/CartService.php';
 
 $pageTitle = 'Корзина - VailMe';
 
 $cart = Cart::getCurrentCart();
 
-if (isset($_GET['increase'])) {
-    $itemId = (int)$_GET['increase'];
-    
-    // Получаем текущий товар и его максимальное количество
-    $checkSql = "SELECT ci.*, pv.quantity as max_qty 
-                 FROM cart_items ci
-                 LEFT JOIN product_variants pv ON ci.variant_id = pv.id
-                 WHERE ci.id = $itemId";
-    $checkResult = mysqli_query($connect, $checkSql);
-    $item = mysqli_fetch_assoc($checkResult);
-    
-    if ($item && $item['quantity'] >= $item['max_qty']) {
-        $_SESSION['cart_warning'] = 'Достигнуто максимальное количество товара';
-        header('Location: cart.php');
-        exit;
-    }
-    
-    $cart->increaseQuantity($itemId);
-    header('Location: cart.php');
-    exit;
-}
-// Обработка действий
 if (isset($_GET['add'])) {
     $id = (int)$_GET['add'];
     $quantity = isset($_GET['quantity']) ? (int)$_GET['quantity'] : 1;
@@ -51,11 +30,13 @@ if (isset($_GET['remove'])) {
 
 if (isset($_GET['increase'])) {
     $itemId = (int)$_GET['increase'];
-    $cart->increaseQuantity($itemId);
+    
+    if (CartService::checkItemLimit($itemId)) {
+        $cart->increaseQuantity($itemId);
+    }
     header('Location: cart.php');
     exit;
 }
-
 if (isset($_GET['decrease'])) {
     $itemId = (int)$_GET['decrease'];
     $cart->decreaseQuantity($itemId);
@@ -63,7 +44,6 @@ if (isset($_GET['decrease'])) {
     exit;
 }
 
-// Применение промокода
 $discount = 0;
 $promocodeError = '';
 $promocodeSuccess = '';
@@ -99,7 +79,6 @@ if (isset($_POST['remove_promocode'])) {
     $promocodeSuccess = 'Промокод удален';
 }
 
-// Получаем актуальную скидку
 if (isset($_SESSION['applied_promocode'])) {
     $promocode = Promocode::findByCode($_SESSION['applied_promocode']);
     if ($promocode) {
@@ -123,6 +102,7 @@ include 'templates/header.php';
 ?>
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/cart.css">
+<script src="assets/js/cart.js"></script>
 
 <div class="cart-page">
     <h1>Корзина</h1>
@@ -178,8 +158,7 @@ include 'templates/header.php';
             </div>
             <?php endforeach; ?>
         </div>
-        
-        <!-- Блок промокода -->
+
         <div class="promocode-section">
             <h3>Промокод</h3>
             <?php if ($promocodeError): ?>
@@ -203,7 +182,7 @@ include 'templates/header.php';
                 </form>
             <?php endif; ?>
         </div>
-        
+   
         <div class="cart-summary">
             <div class="cart-total">
                 <span>Товары на сумму:</span>
@@ -226,7 +205,6 @@ include 'templates/header.php';
     <?php endif; ?>
 </div>
 
-<!-- Модальное окно оформления заказа -->
 <div id="checkoutModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeCheckoutModal()">&times;</span>
@@ -247,87 +225,5 @@ include 'templates/header.php';
         </form>
     </div>
 </div>
-
-<style>
-.promocode-section {
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 12px;
-    margin: 20px 0;
-}
-.promocode-form {
-    display: flex;
-    gap: 10px;
-}
-.promocode-form input {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-.promocode-form button {
-    padding: 12px 20px;
-    background: #F0B1D3;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-.applied-promocode {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    background: #e8f5e9;
-    border-radius: 8px;
-    color: #2e7d32;
-}
-.remove-promocode-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: #999;
-}
-.promocode-error {
-    color: #f44336;
-    margin-bottom: 10px;
-}
-.promocode-success {
-    color: #4caf50;
-    margin-bottom: 10px;
-}
-.cart-discount {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    color: #4caf50;
-}
-.discount-amount {
-    font-weight: bold;
-}
-.cart-final-total {
-    display: flex;
-    justify-content: space-between;
-    font-size: 24px;
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #ddd;
-}
-</style>
-
-<script>
-function openCheckoutModal() {
-    document.getElementById('checkoutModal').style.display = 'block';
-}
-function closeCheckoutModal() {
-    document.getElementById('checkoutModal').style.display = 'none';
-}
-window.onclick = function(event) {
-    if (event.target == document.getElementById('checkoutModal')) {
-        closeCheckoutModal();
-    }
-}
-</script>
-
+</div>
 <?php include 'templates/footer.php'; ?>

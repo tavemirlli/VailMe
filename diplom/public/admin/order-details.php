@@ -65,7 +65,6 @@ include '../templates/admin-header.php';
                     <td><?php echo htmlspecialchars($item['product_name']); ?></td>
                     <td>
                         <?php 
-                        // Получаем цвет и размер из варианта
                         if ($item['variant_id']) {
                             $variantSql = "SELECT color, size FROM product_variants WHERE id = {$item['variant_id']}";
                             $variantResult = mysqli_query($connect, $variantSql);

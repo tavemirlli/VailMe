@@ -1,5 +1,4 @@
 
-/* Категории в круглешках */
 .categories-circle-section {
     margin: 60px 0;
     padding: 0 20px;
@@ -66,7 +65,6 @@
     text-align: center;
 }
 
-/* Адаптивность - для 5 категорий центровка */
 @media (max-width: 768px) {
     .categories-circle-list {
         gap: 20px;
@@ -117,7 +115,6 @@
     }
 }
 
-/* Товары недели */
 .weekly-products {
     padding: 0 20px;
     margin-bottom: 60px;
@@ -193,7 +190,6 @@
     margin-top: 10px;
 }
 
-/* Баннер к каталогу */
 .catalog-banner {
     text-align: center;
     padding: 30px;
@@ -216,13 +212,11 @@
     transform: translateY(-2px);
 }
 
-/* Для женщин */
 .women-section {
     padding: 0 20px;
     margin-bottom: 60px;
 }
 
-/* Как оформить заказ */
 .how-to-order {
     padding: 0 20px;
     margin-bottom: 60px;
@@ -270,7 +264,6 @@
     grid-column: 1 / -1;
 }
 
-/* Адаптивность */
 @media (max-width: 1024px) {
     .products-list,
     .steps-list {
@@ -298,7 +291,6 @@
         text-align: center;
     }
 }
-/* Стили для товаров с картинками */
 .product-item {
     background: #f9f9f9;
     padding: 20px;
@@ -345,8 +337,6 @@
     font-weight: bold;
     color: #F0B1D3;
 }
-
-/* Стили для раздела "Для женщин" с картинками */
 .step-item {
     background: #f9f9f9;
     border-radius: 12px;
@@ -406,7 +396,7 @@
     color: #F0B1D3;
     margin-top: 5px;
 }
-/* Секция для мужчин (аналогично женской) */
+
 .men-section {
     padding: 0 20px;
     margin-bottom: 60px;
@@ -432,7 +422,6 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 25px;
 }
-/* Адаптивность */
 @media (max-width: 1024px) {
     .products-list,
     .steps-list {

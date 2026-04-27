@@ -46,14 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($registerResult['success']) {
             $userId = $user->getId();
-            
-            // Обновляем согласия через класс User
+        
             $user->privacy_consent = $privacy_consent;
             $user->data_consent = $data_consent;
             $user->consent_date = date('Y-m-d H:i:s');
             $user->save();
-            
-            // Создаем промокод для нового пользователя
+
             $promocodeResult = Promocode::createForUser($userId);
             
             if ($promocodeResult) {
@@ -70,6 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 include 'templates/header.php';
 ?>
 <link rel="stylesheet" href="assets/css/auth.css">
+<script src="assets/js/register.js"></script>
+
 
     <div class="auth-form">
         <h1>Регистрация</h1>
@@ -134,138 +134,6 @@ include 'templates/header.php';
         
         <p class="auth-link">Уже есть аккаунт? <a href="login.php">Войти</a></p>
     </div>
-
-
-<style>
-.auth-form {
-    max-width: 550px;
-    margin: 50px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-.auth-form h1 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-.form-row {
-    display: flex;
-    gap: 20px;
-}
-.form-group {
-    flex: 1;
-    margin-bottom: 15px;
-}
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-    font-size: 14px;
-}
-.form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-.form-group input:focus {
-    outline: none;
-    border-color: #F0B1D3;
-}
-.checkbox-group {
-    margin: 15px 0;
-}
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #555;
-}
-.checkbox-label input {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-.checkbox-label a {
-    color: #F0B1D3;
-    text-decoration: none;
-}
-.checkbox-label a:hover {
-    text-decoration: underline;
-}
-button {
-    width: 100%;
-    padding: 12px;
-    background: #F0B1D3;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: all 0.3s;
-}
-button:hover {
-    background: #e091b8;
-    transform: translateY(-2px);
-}
-.error-message {
-    background: #ffebee;
-    color: #f44336;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 14px;
-}
-.success-message {
-    background: #e8f5e9;
-    color: #4caf50;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 14px;
-}
-.auth-link {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-}
-.auth-link a {
-    color: #F0B1D3;
-    text-decoration: none;
-}
-@media (max-width: 550px) {
-    .form-row {
-        flex-direction: column;
-        gap: 0;
-    }
-}
-</style>
-
-<script>
-document.getElementById('register-btn').addEventListener('click', function(e) {
-    const privacy = document.getElementById('privacy_consent');
-    const dataConsent = document.getElementById('data_consent');
-    
-    if (!privacy.checked) {
-        e.preventDefault();
-        alert('Необходимо принять политику конфиденциальности');
-        return false;
-    }
-    
-    if (!dataConsent.checked) {
-        e.preventDefault();
-        alert('Необходимо дать согласие на обработку персональных данных');
-        return false;
-    }
-});
-</script>
+</div>
 
 <?php include 'templates/footer.php'; ?>

@@ -16,7 +16,7 @@ if ($allCategories === null) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $product = new Product();
     
-    // ОБЯЗАТЕЛЬНО заполняем category_id
+
     $product->category_id = $_POST['category_id'] ?? '';
     $product->subcategory_id = !empty($_POST['subcategory_id']) ? (int)$_POST['subcategory_id'] : 0;
     $product->name = $_POST['name'] ?? '';
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 include '../templates/admin-header.php';
 ?>
-
+<script src="assets/js/create.js"></script>
 <h1>Добавить товар</h1>
 
 <?php if (isset($error)): ?>
@@ -145,22 +145,5 @@ include '../templates/admin-header.php';
 
 <a href="index.php" class="back-link">← Вернуться к списку</a>
 
-<script>
-    let variantCount = 1;
-    function addVariant() {
-        const variantsDiv = document.getElementById('variants');
-        const newVariant = document.createElement('div');
-        newVariant.className = 'variant-row';
-        newVariant.innerHTML = `
-            <input type="text" name="variants[${variantCount}][color]" placeholder="Цвет">
-            <input type="text" name="variants[${variantCount}][size]" placeholder="Размер">
-            <input type="number" name="variants[${variantCount}][price]" step="0.01" placeholder="Цена (если отличается)">
-            <input type="number" name="variants[${variantCount}][quantity]" placeholder="Количество" value="0">
-            <button type="button" class="remove-variant" onclick="this.parentElement.remove()">Удалить</button>
-        `;
-        variantsDiv.appendChild(newVariant);
-        variantCount++;
-    }
-</script>
 
 <?php include '../templates/admin-footer.php'; ?>

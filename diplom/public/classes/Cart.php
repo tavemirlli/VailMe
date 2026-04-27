@@ -11,8 +11,7 @@ class Cart extends BaseModel {
     public static function getCurrentCart() {
         $sessionId = session_id();
         $db = Database::getInstance();
-        
-        // Если пользователь авторизован, ищем корзину по user_id
+
         if (isset($_SESSION['user_id'])) {
             $userId = (int)$_SESSION['user_id'];
             $sql = "SELECT * FROM carts WHERE user_id = $userId";
@@ -25,8 +24,7 @@ class Cart extends BaseModel {
                 return $cart;
             }
         }
-        
-        // Ищем корзину по session_id
+
         $sql = "SELECT * FROM carts WHERE session_id = '$sessionId'";
         $result = $db->query($sql);
         $data = $db->fetchOne($result);
@@ -36,8 +34,7 @@ class Cart extends BaseModel {
             $cart->data = $data;
             return $cart;
         }
-        
-        // Создаем новую корзину
+  
         $cart = new self();
         $cart->session_id = $sessionId;
         if (isset($_SESSION['user_id'])) {
@@ -83,8 +80,7 @@ class Cart extends BaseModel {
     $db = Database::getInstance();
     $productId = (int)$productId;
     $quantity = (int)$quantity;
-    
-    // Получаем информацию о товаре и варианте
+
     $sql = "SELECT p.*, pv.id as variant_id, pv.quantity as variant_quantity, pv.price as variant_price
             FROM products p
             LEFT JOIN product_variants pv ON p.id = pv.product_id AND pv.color = '$color' AND pv.size = '$size'
@@ -99,20 +95,17 @@ class Cart extends BaseModel {
     $finalPrice = $product['variant_price'] ?? $product['price'];
     $maxQty = $product['variant_quantity'] ?? 99;
     $variantId = $product['variant_id'] ?? 0;
-    
-    // ПРОВЕРКА: есть ли товар в наличии
+
     if ($maxQty <= 0) {
         $_SESSION['cart_error'] = "Товара '{$product['name']}' нет в наличии";
         return false;
     }
-    
-    // Ограничиваем количество максимальным
+
     if ($quantity > $maxQty) {
         $quantity = $maxQty;
         $_SESSION['cart_warning'] = "Доступно только {$maxQty} шт. товара '{$product['name']}'";
     }
-    
-    // Проверяем, есть ли уже такой товар в корзине
+
     $checkSql = "SELECT id, quantity FROM cart_items 
                  WHERE cart_id = {$this->data['id']} 
                  AND product_id = $productId 
@@ -231,8 +224,7 @@ class Cart extends BaseModel {
     public function saveCartToDatabase() {
         $db = Database::getInstance();
         $cartId = $this->data['id'];
-        
-        // Сохраняем корзину в отдельную таблицу user_carts для авторизованных
+   
         if (isset($_SESSION['user_id'])) {
             $userId = (int)$_SESSION['user_id'];
             $sql = "UPDATE carts SET user_id = $userId WHERE id = $cartId";
@@ -246,19 +238,16 @@ class Cart extends BaseModel {
         $db = Database::getInstance();
         $userId = (int)$userId;
         $sessionId = session_id();
-        
-        // Ищем корзину пользователя
+   
         $sql = "SELECT * FROM carts WHERE user_id = $userId";
         $result = $db->query($sql);
         $userCart = $db->fetchOne($result);
-        
-        // Ищем корзину сессии
+     
         $sql = "SELECT * FROM carts WHERE session_id = '$sessionId'";
         $result = $db->query($sql);
         $sessionCart = $db->fetchOne($result);
         
         if ($userCart && $sessionCart) {
-            // Объединяем корзины
             $sql = "UPDATE cart_items SET cart_id = {$userCart['id']} WHERE cart_id = {$sessionCart['id']}";
             $db->query($sql);
             $sql = "DELETE FROM carts WHERE id = {$sessionCart['id']}";
@@ -276,7 +265,6 @@ class Cart extends BaseModel {
         $sql = "SELECT id FROM carts WHERE user_id = $userId";
         $result = $db->query($sql);
         $cart = $db->fetchOne($result);
-        //!!!!!
         if ($cart) {
             $sql = "DELETE FROM cart_items WHERE cart_id = {$cart['id']}";
             $db->query($sql);

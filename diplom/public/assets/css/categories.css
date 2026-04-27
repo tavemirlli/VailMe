@@ -1,4 +1,4 @@
-/* Стили только для страницы категорий */
+
 
 .categories-section {
     margin: 40px 0;
@@ -75,7 +75,6 @@
     color: #F0B1D3;
 }
 
-/* Frame 104 */
 .promo-banner-middle {
     background: #F0B1D3;
     color: white;
@@ -112,7 +111,6 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* Кнопка к каталогу */
 .catalog-button-section {
     text-align: center;
     margin-top: 50px;
@@ -146,9 +144,6 @@
     grid-column: 1 / -1;
 }
 
-
-
-/* Адаптивность для категорий */
 @media (max-width: 1024px) {
     .categories-list {
         grid-template-columns: repeat(2, 1fr);

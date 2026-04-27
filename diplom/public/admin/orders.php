@@ -1,62 +1,44 @@
 <?php
 session_start();
-require_once '../config/db.php';
-require_once '../classes/Order.php';
-require_once '../classes/User.php';
 
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     header('Location: ../index.php');
     exit;
 }
 
+require_once '../classes/OrderService.php';
+
 $pageTitle = 'Управление заказами - Админка';
+
+$success = '';
 
 if (isset($_POST['update_status'])) {
     $orderId = (int)$_POST['order_id'];
     $status = $_POST['status'];
-    
-    // Если статус меняется на "отменён", показываем подтверждение
+
     if ($status == 'cancelled') {
-        $order = Order::getById($orderId);
-        echo "<script>
-            if (confirm('Вы уверены, что хотите отменить заказ №{$order['order_number']}?\\nТовары будут возвращены на склад.')) {
-                window.location.href = 'orders.php?confirm_cancel={$orderId}';
-            } else {
-                window.location.href = 'orders.php';
-            }
-        </script>";
-        exit;
-    }
-    
-    Order::updateStatus($orderId, $status);
-}
-
-// Обработка подтверждения отмены
-if (isset($_GET['confirm_cancel'])) {
-    $orderId = (int)$_GET['confirm_cancel'];
-    Order::updateStatus($orderId, 'cancelled');
-    header('Location: orders.php');
-    exit;
-}
-
-if (isset($_POST['resend_invoice'])) {
-    $orderId = (int)$_POST['order_id'];
-    $order = Order::getById($orderId);
-    if ($order) {
-        Order::sendInvoiceEmail($order);
-        Order::markInvoiceSent($orderId);
-        $success = "Счет повторно отправлен на email {$order['customer_email']}";
+        $order = OrderService::getOrderById($orderId);
+        if ($order) {
+            OrderService::updateOrderStatus($orderId, 'cancelled');
+            $success = "Заказ №{$order['order_number']} отменен. Товары возвращены на склад.";
+        }
+    } else {
+        OrderService::updateOrderStatus($orderId, $status);
+        $success = "Статус заказа обновлен";
     }
 }
 
-$orders = Order::getAllOrders();
+
+$orders = OrderService::getAllOrders();
 
 include '../templates/admin-header.php';
 ?>
 <link rel="stylesheet" href="assets/css/order.css">
+<script src="assets/js/orders.js"></script>
+
 <h1>Управление заказами</h1>
 
-<?php if (isset($success)): ?>
+<?php if ($success): ?>
     <div class="success-message"><?php echo $success; ?></div>
 <?php endif; ?>
 
@@ -76,12 +58,7 @@ include '../templates/admin-header.php';
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($orders as $order): 
-            $itemsCountSql = "SELECT SUM(quantity) as total FROM order_items WHERE order_id = {$order['id']}";
-            $itemsCountResult = mysqli_query($connect, $itemsCountSql);
-            $itemsCount = mysqli_fetch_assoc($itemsCountResult);
-            $totalItems = $itemsCount['total'] ?? 0;
-        ?>
+        <?php foreach ($orders as $order): ?>
         <tr>
             <td><?php echo $order['id']; ?></td>
             <td><?php echo $order['order_number']; ?></td>
@@ -89,7 +66,7 @@ include '../templates/admin-header.php';
             <td><?php echo $order['customer_phone']; ?></td>
             <td><?php echo $order['customer_email']; ?></td>
             <td><?php echo number_format($order['total_amount'], 0, '.', ' '); ?> ₽</td>
-            <td><?php echo $totalItems; ?> шт.</td>
+            <td><?php echo $order['total_items']; ?> шт.</td>
             <td>
                 <form method="POST" style="display: inline;" id="status-form-<?php echo $order['id']; ?>">
                     <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
@@ -122,20 +99,5 @@ include '../templates/admin-header.php';
         <?php endforeach; ?>
     </tbody>
 </table>
-
-<script>
-function confirmStatusChange(orderId, newStatus) {
-    if (newStatus === 'cancelled') {
-        if (confirm('Вы уверены, что хотите отменить этот заказ?\nТовары будут возвращены на склад.')) {
-            document.getElementById('status-form-' + orderId).submit();
-        } else {
-            // Возвращаем предыдущее значение
-            location.reload();
-        }
-    } else {
-        document.getElementById('status-form-' + orderId).submit();
-    }
-}
-</script>
 
 <?php include '../templates/admin-footer.php'; ?>

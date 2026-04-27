@@ -98,6 +98,6 @@ unset($_SESSION['contact_success'], $_SESSION['contact_errors']);
             <div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/11043/kamensk-shakhtinsky/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Каменск‑Шахтинский</a><a href="https://yandex.ru/maps/11043/kamensk-shakhtinsky/house/prospekt_karla_marksa_15/YEkYdABjTUEGQFpifX9ycX5gbA==/?ll=40.239707%2C48.333077&utm_medium=mapframe&utm_source=maps&z=12.03" style="color:#eee;font-size:12px;position:absolute;top:14px;">Проспект Карла Маркса, 15 — Яндекс Карты</a><iframe src="https://yandex.ru/map-widget/v1/?ll=40.239707%2C48.333077&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgoxNTM0Mjc0NTExEoQB0KDQvtGB0YHQuNGPLCDQoNC-0YHRgtC-0LLRgdC60LDRjyDQvtCx0LvQsNGB0YLRjCwg0JrQsNC80LXQvdGB0Lot0KjQsNGF0YLQuNC90YHQutC40LksINC_0YDQvtGB0L_QtdC60YIg0JrQsNGA0LvQsCDQnNCw0YDQutGB0LAsIDE1IgoNARghQhUqUkFC&z=12.03" width="1260" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
         </div>
     </div>
-</div><div
+</div>
 
 <?php include 'templates/footer.php'; ?>
