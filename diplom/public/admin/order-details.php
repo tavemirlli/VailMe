@@ -97,10 +97,7 @@ include '../templates/admin-header.php';
 
 <div class="actions">
     <a href="orders.php" class="btn-back">← Назад к списку</a>
-    <form method="POST" action="orders.php" style="display: inline;">
-        <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
-        <button type="submit" name="resend_invoice" class="btn-resend">📧 Отправить счет повторно</button>
-    </form>
+
 </div>
 
 

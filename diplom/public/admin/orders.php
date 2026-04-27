@@ -68,7 +68,7 @@ include '../templates/admin-header.php';
             <td><?php echo number_format($order['total_amount'], 0, '.', ' '); ?> ₽</td>
             <td><?php echo $order['total_items']; ?> шт.</td>
             <td>
-                <form method="POST" style="display: inline;" id="status-form-<?php echo $order['id']; ?>">
+                <form method="POST" id="status-form-<?php echo $order['id']; ?>">
                     <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
                     <select name="status" onchange="confirmStatusChange(<?php echo $order['id']; ?>, this.value)">
                         <option value="new" <?php echo $order['order_status'] == 'new' ? 'selected' : ''; ?>>Новый</option>
@@ -87,10 +87,7 @@ include '../templates/admin-header.php';
                 <?php else: ?>
                     ❌ Не отправлен
                 <?php endif; ?>
-                <form method="POST" style="margin-top: 5px;">
-                    <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
-                    <button type="submit" name="resend_invoice" class="btn-resend">📧 Отправить счет</button>
-                </form>
+
             </td>
             <td>
                 <a href="order-details.php?id=<?php echo $order['id']; ?>" class="btn-view">Детали</a>

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+
 body {
     font-family: 'Montserrat';
     padding: 20px;
@@ -11,57 +12,105 @@ body {
     margin: 0 auto;
     background: white;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+    box-shadow: none;
 }
 
 h1 {
-    color: #333;
-    border-bottom: 2px solid #F0B1D3;
+    color: #d4839e;
+    border-bottom: 1px solid #e0e0e0;
     padding-bottom: 10px;
+    font-weight: 600;
 }
 
 h2 {
-    color: #666;
+    color: #888888;
     margin-top: 30px;
 }
 
 h3 {
-    color: #555;
+    color: #999999;
     margin-bottom: 15px;
 }
 
 .btn {
     display: inline-block;
-    padding: 8px 15px;
-    background: #F0B1D3;
-    color: white;
+    padding: 6px 12px;
+    background: #e0e0e0;
+    color: #666666;
     text-decoration: none;
-    border-radius: 4px;
-    border: none;
+    border: 1px solid #cccccc;
     cursor: pointer;
-    font-size: 14px;
-    margin-right: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .btn:hover {
-    opacity: 0.9;
+    background: #d0d0d0;
+    color: #333333;
 }
 
 .btn-delete {
-    background: #ff6d63;
+    background: #f5d5df;
+    color: #c45a7a;
+    border: 1px solid #e8a9bd;
+    padding: 6px 12px;
+    margin-left: 8px;
+}
+
+.btn-delete:hover {
+    background: #e8a9bd;
+    color: white;
 }
 
 .btn-edit {
-    background: #2196F3;
+    background: #e0e0e0;
+    color: #666666;
+    border: 1px solid #cccccc;
+    padding: 6px 12px;
+}
+
+.btn-edit:hover {
+    background: #d0d0d0;
+    color: #333333;
+}
+
+.products-table .btn-edit,
+.products-table .btn-delete {
+    display: inline-block;
+    padding: 6px 14px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.products-table .btn-edit {
+    margin-right: 8px;
+}
+
+.products-table .btn-delete {
+    margin-left: 0;
+}
+
+.products-table td:last-child {
+    white-space: nowrap;
+    padding: 10px 8px;
 }
 
 .btn-primary {
-    background: #F0B1D3;
+    background: #d4839e;
+    color: white;
+    border: 1px solid #c46b8a;
+}
+
+.btn-primary:hover {
+    background: #c46b8a;
 }
 
 .btn-secondary {
-    background: #9C27B0;
+    background: #e0e0e0;
+    color: #666666;
+    border: 1px solid #cccccc;
 }
 
 table {
@@ -69,83 +118,88 @@ table {
     border-collapse: collapse;
     margin-top: 20px;
     background: white;
+    border: 1px solid #e0e0e0;
 }
 
 th {
-    background-color: #F0B1D3;
-    color: white;
+    background-color: #f5f5f5;
+    color: #888888;
     padding: 12px;
     text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 600;
 }
 
 td {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 tr:hover {
-    background-color: #f5f5f5;
+    background-color: #fafafa;
 }
 
 form {
     max-width: 600px;
     background: white;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+    box-shadow: none;
 }
 
 label {
     display: block;
     margin-top: 15px;
-    font-weight: bold;
-    color: #555;
+    font-weight: 600;
+    color: #888888;
 }
 
 input, select, textarea {
     width: 100%;
-    padding: 10px;
+    padding: 8px;
     margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+    background: white;
     box-sizing: border-box;
+    font-family: 'Montserrat';
 }
 
 input:focus, select:focus, textarea:focus {
-    border-color: #F0B1D3;
+    border-color: #d4839e;
     outline: none;
+    background: #fffafc;
 }
 
 button {
     margin-top: 20px;
-    padding: 12px 20px;
-    background: #F0B1D3;
-    color: white;
-    border: none;
-    border-radius: 4px;
+    padding: 10px 20px;
+    background: #e0e0e0;
+    color: #666666;
+    border: 1px solid #cccccc;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 500;
+    font-family: 'Montserrat';
 }
 
 button:hover {
-    background: #F0B1D3;
+    background: #d0d0d0;
+    color: #333333;
 }
 
 .success {
-    color: #155724;
-    background: #d4edda;
-    border: 1px solid #c3e6cb;
+    color: #7a9e7a;
+    background: #f0f5f0;
+    border: 1px solid #d0ddd0;
     padding: 12px;
-    border-radius: 4px;
     margin-bottom: 20px;
 }
 
 .error {
-    color: #721c24;
-    background: #f8d7da;
-    border: 1px solid #f5c6cb;
+    color: #c45a7a;
+    background: #fef5f7;
+    border: 1px solid #f0d0d8;
     padding: 12px;
-    border-radius: 4px;
     margin-bottom: 20px;
 }
 
@@ -153,21 +207,31 @@ button:hover {
     display: flex;
     gap: 20px;
     margin: 20px 0;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .stat-box {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 15px 25px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    background: none;
+    border: none;
+    padding: 0;
+    box-shadow: none;
 }
 
 .stat-box strong {
-    color: #F0B1D3;
-    font-size: 1.2em;
+    color: #d4839e;
+    font-size: 1em;
+    display: inline;
 }
 
+.stat-box .btn {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #e0e0e0;
+    color: #666666;
+    text-decoration: none;
+    border: 1px solid #cccccc;
+}
 
 .forms {
     display: flex;
@@ -177,95 +241,90 @@ button:hover {
 
 .form-box {
     flex: 1;
-    background: #f9f9f9;
+    background: #fafafa;
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid #e0e0e0;
 }
 
 .category {
-    background: #f0f0f0;
+    background: #fafafa;
     padding: 15px;
     margin: 10px 0;
-    border-radius: 5px;
-    border-left: 4px solid #F0B1D3;
+    border-left: 3px solid #d4839e;
 }
 
 .subcategory {
     background: white;
     padding: 10px;
     margin: 5px 0 5px 20px;
-    border-left: 3px solid #F0B1D3;
-    border-radius: 0 4px 4px 0;
+    border-left: 3px solid #e0e0e0;
 }
 
-
 .variant-row {
-    border: 1px solid #ddd;
+    border: 1px solid #e0e0e0;
     padding: 15px;
     margin-top: 10px;
-    border-radius: 4px;
-    background: #f9f9f9;
+    background: #fafafa;
 }
 
 .remove-variant {
-    background: #fc7e75;
-    color: white;
-    border: none;
-    padding: 8px 15px;
+    background: #f5d5df;
+    color: #c45a7a;
+    border: 1px solid #e8a9bd;
+    padding: 6px 12px;
     cursor: pointer;
-    border-radius: 4px;
     margin-top: 10px;
 }
 
 .remove-variant:hover {
-    background: #fc7e75;
+    background: #e8a9bd;
+    color: white;
 }
 
 a {
-    color: #2196F3;
+    color: #d4839e;
     text-decoration: none;
 }
 
 a:hover {
+    color: #b86b87;
     text-decoration: underline;
 }
 
 .back-link {
     display: inline-block;
     margin-top: 20px;
-    color: #666;
+    color: #999999;
 }
 
 .admin-nav {
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .admin-nav a {
     margin-right: 15px;
-    color: #333;
+    color: #888888;
     font-weight: bold;
 }
 
 .admin-nav a:hover {
-    color: #F0B1D3;
+    color: #d4839e;
     text-decoration: none;
 }
-/* Стили для изображений товаров */
+
 .current-images {
     margin: 20px 0;
     padding: 20px;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
 }
 
 .current-images h4 {
     margin-top: 0;
     margin-bottom: 15px;
-    color: #333;
+    color: #999999;
 }
 
 .image-item {
@@ -273,18 +332,16 @@ a:hover {
     margin: 10px;
     padding: 10px;
     background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 1px solid #e0e0e0;
     text-align: center;
     position: relative;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: none;
 }
 
 .image-item img {
     width: 150px;
     height: 150px;
     object-fit: cover;
-    border-radius: 4px;
     display: block;
     margin-bottom: 10px;
 }
@@ -293,13 +350,11 @@ a:hover {
     position: absolute;
     top: 15px;
     left: 15px;
-    background: #4CAF50;
+    background: #d4839e;
     color: white;
     padding: 4px 8px;
-    border-radius: 4px;
     font-size: 12px;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .image-actions {
@@ -310,167 +365,140 @@ a:hover {
 .image-actions a {
     text-decoration: none;
     padding: 3px 6px;
-    border-radius: 3px;
 }
 
 .delete-image {
-    color: #f44336;
+    color: #c45a7a;
 }
 
 .delete-image:hover {
-    background: #ffebee;
+    background: #fef5f7;
     text-decoration: none;
 }
 
 .set-main {
-    color: #2196F3;
+    color: #7a9e7a;
 }
 
 .set-main:hover {
-    background: #e3f2fd;
+    background: #f0f5f0;
     text-decoration: none;
 }
 
 .no-images {
     padding: 20px;
-    background: #f5f5f5;
-    border: 1px dashed #ccc;
-    border-radius: 8px;
+    background: #fafafa;
+    border: 1px dashed #e0e0e0;
     text-align: center;
-    color: #666;
+    color: #999999;
     font-style: italic;
 }
 
 .image-upload {
     margin: 20px 0;
     padding: 20px;
-    background: #f0f8ff;
-    border: 2px dashed #2196F3;
-    border-radius: 8px;
+    background: #fafafa;
+    border: 2px dashed #e0e0e0;
     text-align: center;
 }
 
 .image-upload h4 {
     margin-top: 0;
-    color: #1976D2;
+    color: #d4839e;
 }
 
 .image-upload input[type="file"] {
     margin: 15px auto;
-    padding: 10px;
+    padding: 8px;
     background: white;
-    border: 1px solid #bdbdbd;
-    border-radius: 4px;
+    border: 1px solid #e0e0e0;
     width: auto;
     display: inline-block;
 }
 
 .image-upload small {
     display: block;
-    color: #666;
+    color: #999999;
     font-size: 12px;
     margin-top: 5px;
 }
-/* Стили для таблицы товаров */
-table {
+
+.products-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     background: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
 }
 
-table thead {
-    background: #4CAF50;
-    color: white;
-}
-
-table th {
+.products-table th {
+    background: #f5f5f5;
+    color: #888888;
     padding: 12px;
     text-align: left;
-    font-weight: 500;
+    font-weight: 600;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-table td {
+.products-table td {
     padding: 12px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #f0f0f0;
     vertical-align: middle;
 }
 
-table tbody tr:hover {
-    background: #f5f5f5;
+.products-table tbody tr:hover {
+    background: #fafafa;
 }
 
-/* Кнопки действий */
-.btn-edit {
-    background: #2196F3;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 3px;
+.products-table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.products-table td:last-child {
+    white-space: nowrap;
+}
+
+.products-table .btn-edit {
+    background: #e0e0e0;
+    color: #666666;
+    border: 1px solid #cccccc;
+    padding: 6px 14px;
     text-decoration: none;
-    font-size: 13px;
-}
-
-.btn-delete {
-    background: #f44336;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 3px;
-    text-decoration: none;
-    font-size: 13px;
-    margin-left: 5px;
-}
-
-.btn-edit:hover, .btn-delete:hover {
-    opacity: 0.9;
-    text-decoration: none;
-}
-
-/* Статистика */
-.stats {
-    display: flex;
-    gap: 20px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-}
-
-.stat-box {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 15px 25px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    flex: 1;
-    min-width: 150px;
-}
-
-.stat-box strong {
-    color: #4CAF50;
-    font-size: 1.2em;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.stat-box .btn {
     display: inline-block;
-    padding: 8px 15px;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 14px;
+    margin-right: 10px;
 }
 
-/* Пустое состояние */
+.products-table .btn-delete {
+    background: #f5d5df;
+    color: #c45a7a;
+    border: 1px solid #e8a9bd;
+    padding: 6px 14px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.products-table .btn-edit:hover {
+    background: #d0d0d0;
+    color: #333333;
+}
+
+.products-table .btn-delete:hover {
+    background: #e8a9bd;
+    color: white;
+}
+
 .empty-state {
     text-align: center;
     padding: 50px;
-    background: #f9f9f9;
-    border-radius: 8px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
     margin-top: 20px;
 }
 
 .empty-state p {
-    color: #666;
+    color: #999999;
     font-size: 16px;
     margin-bottom: 20px;
 }
@@ -478,45 +506,35 @@ table tbody tr:hover {
 .empty-state .btn {
     display: inline-block;
     padding: 10px 20px;
-    background: #4CAF50;
-    color: white;
+    background: #e0e0e0;
+    color: #666666;
+    border: 1px solid #cccccc;
     text-decoration: none;
-    border-radius: 4px;
 }
-/* Стили для фото категорий */
+
 .category img {
-    border: 1px solid #ddd;
-    transition: transform 0.2s;
+    border: 1px solid #e0e0e0;
 }
 
 .category img:hover {
-    transform: scale(2);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: none;
     z-index: 100;
     position: relative;
 }
 
-.btn-edit {
-    background: #2196F3;
-}
-
-.btn-edit:hover {
-    background: #1976D2;
-}
-
-/* Адаптивность для административной панели */
 @media (max-width: 768px) {
     .dashboard-stats {
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        flex-wrap: wrap;
         gap: 10px;
     }
     
     .dashboard-sections {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 20px;
     }
     
-    /* Таблицы */
     .orders-table,
     .products-table {
         display: block;
@@ -524,23 +542,28 @@ table tbody tr:hover {
         white-space: nowrap;
     }
     
-    /* Формы админки */
     .form-group input,
     .form-group select,
     .form-group textarea {
         font-size: 14px;
     }
     
-    /* Кнопки в таблицах */
-    .btn-edit, .btn-delete {
+    .products-table .btn-edit,
+    .products-table .btn-delete {
         display: inline-block;
         margin: 2px;
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+    
+    .products-table .btn-edit {
+        margin-right: 6px;
     }
 }
 
 @media (max-width: 480px) {
     .dashboard-stats {
-        grid-template-columns: 1fr;
+        flex-direction: column;
     }
     
     .stat-card {
@@ -557,4 +580,39 @@ table tbody tr:hover {
     }
 }
 
-img {width: 50px; height: 50px; object-fit: cover; border-radius: 4px;}
+img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 2px;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    color: #888888;
+}
+
+.pagination a:hover {
+    background: #e0e0e0;
+    color: #333333;
+    text-decoration: none;
+}
+
+.pagination .active {
+    background: #d4839e;
+    color: white;
+    border-color: #d4839e;
+}
